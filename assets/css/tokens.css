@@ -1,0 +1,82 @@
+/* ===========================================================================
+   tokens.css — design tokens, transcribed from build spec §3
+   ---------------------------------------------------------------------------
+   Source of truth: amyinsvg.cargo.site, fetched 10 Sep 2026.
+   This is a MIGRATION, not a redesign. Every value below was captured from the
+   live Cargo site before the subscription lapsed. Do not "improve" them.
+
+   Every colour and font reference in main.css points at a custom property
+   defined here. Nothing is hardcoded — swapping a value should be a one-line
+   change in this file and nowhere else.
+   =========================================================================== */
+
+:root {
+  /* --- Colour ------------------------------------------------------------
+     Sampled from screenshots, including a magnified crop of the Info section
+     where the type was large enough to give flat, unantialiased fills.
+     Spec §3 marks these as confirmed — build against them directly.        */
+
+  --c-frame:      #F2E8B3;  /* outer border field */
+  --c-surface:    #F5F1E5;  /* content field */
+  --c-ink:        #131313;  /* body and display text */
+  --c-link:       #592B43;  /* links — the only chromatic accent ("plum") */
+  --c-rule:       #939189;  /* hairline */
+
+  /* Third ink colour: secondary text, one step back from black.
+     Used by Subtitle Italic, Tag/Metadata and Teaser caption.
+
+     STATUS NOTE — unresolved discrepancy, do not silently settle it:
+     spec §3, the §4 "three notes", and the §12 capture checklist all record
+     this as sampled and CONFIRMED at #606060. The build request that
+     accompanied the spec instead describes --c-ink-mute as "a placeholder for
+     a colour that was never captured". The hex is the same either way, so the
+     rendered site is unaffected — but whether this value is confirmed or
+     provisional is still open. Flagged for Amy, not resolved here.          */
+  --c-ink-mute:   #606060;  /* secondary text */
+
+  /* --- Type families ----------------------------------------------------
+     Four families, per spec §4. Loading strategy differs by licence — see
+     the @font-face block and the Fontshare <link> comment in main.css.
+
+     Monument Grotesk is deliberately absent. Dinamo's licence excludes
+     storing the files on publicly available servers, and this repo is public.
+     Both styles that used it (Heading 2, Caption) fold into DM Mono per §4.  */
+
+  --font-display: "General Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-ui:      "Inter Tight", "Helvetica Neue", Arial, sans-serif;
+  --font-serif:   "Instrument Serif", Georgia, serif;
+  --font-mono:    "DM Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* --- Type scale --------------------------------------------------------
+     rem, transcribed from Cargo's Text Styles panel. All 17 styles.
+     --t-hero and --t-h1 are the fixed upper bounds; both are clamped at
+     point of use in main.css (§4: 8.25rem = 132px overflows a phone).       */
+
+  --t-hero:        8.25rem;
+  --t-h1:          4rem;
+  --t-h2:          2rem;
+  --t-pullquote:   1.625rem;
+  --t-project:     1.375rem;
+  --t-teaser:      1.35rem;
+  --t-nav:         1.3rem;
+  --t-caption:     1.1rem;
+  --t-subtitle:    1.1rem;
+  --t-body-lg:     1.05rem;
+  --t-cta:         1.05rem;
+  --t-tag:         0.95rem;
+  --t-currently:   0.94rem;
+  --t-body:        0.875rem;
+  --t-brandmark:   0.8rem;
+  --t-label:       0.7rem;
+
+  /* --- Layout -----------------------------------------------------------
+     --frame-inset clamps so the inset frame shrinks on narrow viewports
+     instead of squeezing the content field to nothing (§10).               */
+
+  --frame-inset:  clamp(0.75rem, 2.5vw, 2.25rem);
+  --field-pad:    clamp(1.5rem, 5vw, 5rem);
+  --measure:      68ch;
+  --stack-sm:     1.25rem;
+  --stack-md:     2.5rem;
+  --stack-lg:     4rem;
+}

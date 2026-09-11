@@ -1,0 +1,713 @@
+/* ===========================================================================
+   main.css — layout, type styles, components
+   ---------------------------------------------------------------------------
+   Migration of amyinsvg.cargo.site to static files. Not a redesign.
+   All colour and font values come from tokens.css. Nothing hardcoded here.
+   =========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   1. SELF-HOSTED FACES  (spec §4 — "Weights to load")
+   ---------------------------------------------------------------------------
+   Inter Tight, Instrument Serif and DM Mono are SIL OFL, which permits
+   redistribution — so they are committed to this repo, subset to Latin,
+   woff2, font-display: swap. Only the weights §4 lists are loaded.
+
+   General Sans is NOT here on purpose. See the Fontshare <link> comment in
+   every HTML head — it must stay on the CDN for licence reasons.
+   --------------------------------------------------------------------------- */
+
+/* Inter Tight — Italic 400, Medium 500, SemiBold 600.
+   The roman file is Google's VARIABLE Latin instance (wght 100–900 in one
+   file, 44.9 KB). Declaring the 500–600 range here means one request covers
+   both Medium and SemiBold; two static instances would have been 45.2 KB
+   across two requests, so this is the same payload with one fewer round trip.
+   If a third roman weight is ever needed it is a range edit, not a download. */
+@font-face {
+  font-family: "Inter Tight";
+  src: url("../fonts/inter-tight-var-latin.woff2") format("woff2");
+  font-weight: 500 600;
+  font-style: normal;
+  font-display: swap;
+}
+/* The italic is a static 400 instance — Italic 400 is the only italic used. */
+@font-face {
+  font-family: "Inter Tight";
+  src: url("../fonts/inter-tight-italic-400-latin.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Instrument Serif — Regular 400, Italic 400. */
+@font-face {
+  font-family: "Instrument Serif";
+  src: url("../fonts/instrument-serif-400-latin.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Instrument Serif";
+  src: url("../fonts/instrument-serif-italic-400-latin.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* DM Mono — Regular 400, Medium 500.
+   DM Mono carries six styles in this system, including the two that used to
+   be Monument Grotesk (Heading 2, Caption). It ships Light 300 / Regular 400 /
+   Medium 500 and has NO Bold — which is why Heading 2's captured weight of
+   700 is set at 500 below. See the note on .t-h2. */
+@font-face {
+  font-family: "DM Mono";
+  src: url("../fonts/dm-mono-400-latin.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "DM Mono";
+  src: url("../fonts/dm-mono-500-latin.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------------------------------------------------------------------------
+   2. RESET
+   --------------------------------------------------------------------------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  /* Smooth scrolling serves the "↓ Next" cues and the ↑ Top link.
+     Disabled under prefers-reduced-motion at the end of this file (§10).
+     Scroll-snap was deliberately NOT used: it fights the sticky header and
+     hijacks trackpad scrolling on long sections. Smooth scroll alone is
+     enough for the cues and degrades to an instant jump with no JS. */
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--c-frame);
+  color: var(--c-ink);
+  font-family: var(--font-ui);
+  font-size: var(--t-body);
+  line-height: 1.65;
+  /* Bodycopy is Inter Tight ITALIC 400 on the live site (§4). That reads as a
+     mistake and it is not — it is the captured design. Left as found. */
+  font-style: italic;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, p, figure, blockquote, ul, ol, dl, dd { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+img, svg { display: block; max-width: 100%; height: auto; }
+button, input, textarea, select { font: inherit; color: inherit; }
+
+/* ---------------------------------------------------------------------------
+   3. FRAME SHELL
+   ---------------------------------------------------------------------------
+   Outer field is --c-frame, content field is --c-surface, inset by
+   --frame-inset. Implemented as a margin on a normal in-flow block rather
+   than a fixed inner scroller: the document keeps native scrolling, anchor
+   links, and scroll restoration, which a fixed overflow pane breaks.
+
+   --frame-inset clamps 0.75rem → 2.25rem so the frame SHRINKS on narrow
+   viewports instead of eating the content field (§10). At 320px the band is
+   12px a side and the field still has 296px.
+   --------------------------------------------------------------------------- */
+
+.frame {
+  background: var(--c-surface);
+  margin: var(--frame-inset);
+  min-height: calc(100vh - (var(--frame-inset) * 2));
+  min-height: calc(100dvh - (var(--frame-inset) * 2));
+  position: relative;
+}
+
+.field {
+  padding-inline: var(--field-pad);
+}
+
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  background: var(--c-surface);
+  color: var(--c-link);
+  padding: var(--stack-sm);
+  border: 1px solid var(--c-rule);
+}
+.skip:focus { left: var(--field-pad); }
+
+/* ---------------------------------------------------------------------------
+   4. TYPE STYLES  (spec §4 — all 17 styles from Cargo's Text Styles panel)
+   ---------------------------------------------------------------------------
+   Tracking values in the panel are em. Where a style is named "Italic" the
+   panel reports the roman family name, so font-style: italic is applied here.
+
+   Info Label and Accent Marker are identical in every property, so they are
+   one class (.t-label), per §4.
+
+   Caption, Heading 1 and Heading 2 set NO colour and inherit from their
+   parent — deliberately not assigned one.
+
+   MAPPING CAVEAT — not verified, do not treat as settled:
+   The panel gives the styles but not which element uses which. The
+   style-to-element mapping in §4 (and therefore every place these classes are
+   applied in the HTML) is INFERRED from the style names and the live markup.
+   It is reasonable but unconfirmed. Left as the spec names it; resolving it
+   needs the original Cargo editor, which lapses with the subscription.
+   --------------------------------------------------------------------------- */
+
+/* Hero Display — General Sans Bold, 8.25rem/0.9, −0.04em, 700, ink.
+   8.25rem is 132px and overflows a phone, so it is clamped per §4. */
+.t-hero {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 13vw, var(--t-hero));
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  font-weight: 700;
+  font-style: normal;
+  color: var(--c-ink);
+}
+
+/* Heading 1 — General Sans Bold, 4rem/0.9, 0, 700, colour INHERITED.
+   Clamped too, "more gently" per §4. */
+.t-h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 7vw, var(--t-h1));
+  line-height: 0.9;
+  letter-spacing: 0;
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* Heading 2 — captured as Monument Grotesk Mono Bold 700; folded into
+   DM Mono per §4. DM Mono has no Bold, so 700 becomes Medium 500 — at 2rem
+   the size carries the hierarchy.
+   THE FALLBACK, IF 500 TURNS OUT TOO LIGHT: move all six mono styles to
+   IBM Plex Mono (OFL, runs to 700). That shifts the character of the small
+   labels too, so §4 calls it a design decision, not a build one. Not taken
+   here. Colour inherited. */
+.t-h2 {
+  font-family: var(--font-mono);
+  font-size: var(--t-h2);
+  line-height: 1.1;
+  letter-spacing: 0;
+  font-weight: 500;
+  font-style: normal;
+}
+
+/* Pull Quote — Instrument Serif, 1.625rem/1.35, 0, 400, ink. */
+.t-pullquote {
+  font-family: var(--font-serif);
+  font-size: var(--t-pullquote);
+  line-height: 1.35;
+  letter-spacing: 0;
+  font-weight: 400;
+  font-style: normal;
+  color: var(--c-ink);
+}
+
+/* Project Title — Inter Tight Medium, 1.375rem/1.2, −0.015em, 500, ink. */
+.t-project {
+  font-family: var(--font-ui);
+  font-size: var(--t-project);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  font-weight: 500;
+  font-style: normal;
+  color: var(--c-ink);
+}
+
+/* Teaser caption — Instrument Serif, 1.35rem/1.65, 0, 400, grey. */
+.t-teaser {
+  font-family: var(--font-serif);
+  font-size: var(--t-teaser);
+  line-height: 1.65;
+  letter-spacing: 0;
+  font-weight: 400;
+  font-style: normal;
+  color: var(--c-ink-mute);
+}
+
+/* Nav Link — Inter Tight Medium, 1.3rem/1.3, 0, 500, ink. */
+.t-nav {
+  font-family: var(--font-ui);
+  font-size: var(--t-nav);
+  line-height: 1.3;
+  letter-spacing: 0;
+  font-weight: 500;
+  font-style: normal;
+  color: var(--c-ink);
+}
+
+/* Caption — captured as Monument Grotesk Variable wght 440; folded into
+   DM Mono, which has no 440, so 400. Colour inherited. */
+.t-caption {
+  font-family: var(--font-mono);
+  font-size: var(--t-caption);
+  line-height: 1.2;
+  letter-spacing: 0;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Subtitle Italic — Instrument Serif italic, 1.1rem/1.2, 0, 400, grey. */
+.t-subtitle {
+  font-family: var(--font-serif);
+  font-size: var(--t-subtitle);
+  line-height: 1.2;
+  letter-spacing: 0;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--c-ink-mute);
+}
+
+/* Body Large — Inter Tight Italic, 1.05rem/1.6, 0, 400, ink. */
+.t-body-lg {
+  font-family: var(--font-ui);
+  font-size: var(--t-body-lg);
+  line-height: 1.6;
+  letter-spacing: 0;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--c-ink);
+}
+
+/* View Case Study — DM Mono, 1.05rem/1.65, 0.08em, 400, plum. */
+.t-cta {
+  font-family: var(--font-mono);
+  font-size: var(--t-cta);
+  line-height: 1.65;
+  letter-spacing: 0.08em;
+  font-weight: 400;
+  font-style: normal;
+  color: var(--c-link);
+}
+
+/* Tag/Metadata — DM Mono, 0.95rem/1.9, 0.05em, 400, grey. */
+.t-tag {
+  font-family: var(--font-mono);
+  font-size: var(--t-tag);
+  line-height: 1.9;
+  letter-spacing: 0.05em;
+  font-weight: 400;
+  font-style: normal;
+  color: var(--c-ink-mute);
+}
+
+/* Currently Line — Instrument Serif, 0.94rem/1.4, 0, 400, ink. */
+.t-currently {
+  font-family: var(--font-serif);
+  font-size: var(--t-currently);
+  line-height: 1.4;
+  letter-spacing: 0;
+  font-weight: 400;
+  font-style: normal;
+  color: var(--c-ink);
+}
+
+/* Bodycopy — Inter Tight Italic, 0.875rem/1.65, 0, 400, ink. */
+.t-body {
+  font-family: var(--font-ui);
+  font-size: var(--t-body);
+  line-height: 1.65;
+  letter-spacing: 0;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--c-ink);
+}
+
+/* Brand Mark — Inter Tight SemiBold, 0.8rem/1.3, 0.04em, 600, ink. */
+.t-brandmark {
+  font-family: var(--font-ui);
+  font-size: var(--t-brandmark);
+  line-height: 1.3;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+  font-style: normal;
+  color: var(--c-ink);
+}
+
+/* Info Label + Accent Marker — identical in every property, so one class.
+   DM Mono, 0.7rem/1.5, 0.08em, 400, plum. */
+.t-label {
+  font-family: var(--font-mono);
+  font-size: var(--t-label);
+  line-height: 1.5;
+  letter-spacing: 0.08em;
+  font-weight: 400;
+  font-style: normal;
+  color: var(--c-link);
+}
+
+/* Several styles above are defined for pages that do not exist yet (§4).
+   Kept regardless — they cost nothing and case study two will want them. */
+
+/* ---------------------------------------------------------------------------
+   5. LINKS AND FOCUS  (§10 — visible keyboard focus on EVERY interactive
+   element, including the hero name, which is a link with no natural
+   affordance)
+   --------------------------------------------------------------------------- */
+
+a { color: var(--c-link); text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+a:hover { text-decoration-thickness: 2px; }
+
+:focus-visible {
+  outline: 2px solid var(--c-link);
+  outline-offset: 3px;
+}
+
+/* A muted, non-navigating stand-in for links whose target does not exist yet
+   (projects 2 and 3, "Next → Scott Campit", and the In The Wild in-body link).
+   Rendered as a <span>, not an <a>, so there is nothing to focus or click and
+   no wrong URL to guess. When the target lands it becomes an <a class="t-cta">. */
+.link-pending {
+  color: var(--c-ink-mute);
+  font-style: normal;
+  cursor: default;
+}
+.link-pending::after {
+  content: " (coming soon)";
+  font-family: var(--font-mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.08em;
+}
+
+/* ---------------------------------------------------------------------------
+   6. HEADER
+   ---------------------------------------------------------------------------
+   §6 says "fixed or sticky, on the frame" — undecided. Sticky is taken here
+   as the reversible option: it participates in flow, needs no body padding
+   compensation, and reverts to static with one line. Background is the
+   surface field so content passes cleanly beneath it.
+   --------------------------------------------------------------------------- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--stack-sm);
+  align-items: baseline;
+  justify-content: space-between;
+  padding-block: var(--stack-sm);
+  background: var(--c-surface);
+}
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(1rem, 3vw, 2rem);
+}
+
+/* Anchor targets clear the sticky header. */
+:target,
+[id] { scroll-margin-top: calc(var(--stack-lg) + var(--stack-sm)); }
+
+/* ---------------------------------------------------------------------------
+   7. HOME — hero, project blocks, info, footer
+   --------------------------------------------------------------------------- */
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: calc(100vh - (var(--frame-inset) * 2) - var(--stack-lg) * 2);
+  min-height: calc(100dvh - (var(--frame-inset) * 2) - var(--stack-lg) * 2);
+  padding-block: var(--stack-lg);
+}
+
+/* The hero name is a LINK to #project-1 on the live site. That behaviour is
+   preserved, but a clickable name has no natural affordance — so it gets an
+   underline on hover/focus, a visible focus ring, and the ↓ cue beneath. */
+.hero-name {
+  display: inline-block;
+  text-decoration: none;
+  color: var(--c-ink);
+  max-width: max-content;
+}
+.hero-name:hover,
+.hero-name:focus-visible { text-decoration: underline; text-decoration-thickness: 2px; }
+
+.scroll-cue {
+  margin-top: var(--stack-md);
+  color: var(--c-ink-mute);
+  font-style: normal;
+}
+
+/* Project blocks — each a full-viewport section (§6). min-height, never
+   height: content taller than the viewport must still be reachable. */
+.project {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--stack-sm);
+  min-height: calc(100vh - (var(--frame-inset) * 2));
+  min-height: calc(100dvh - (var(--frame-inset) * 2));
+  padding-block: var(--stack-lg);
+  border-top: 1px solid var(--c-rule);
+}
+
+.project > * { max-width: var(--measure); }
+.project .ph { max-width: none; }
+
+.project-media { margin-top: var(--stack-sm); }
+
+.next-cue {
+  margin-top: auto;
+  padding-top: var(--stack-md);
+}
+
+/* Info */
+.info {
+  padding-block: var(--stack-lg);
+  border-top: 1px solid var(--c-rule);
+}
+
+.info-prose {
+  max-width: var(--measure);   /* §10 — the live site runs past 90ch */
+  margin-top: var(--stack-md);
+  display: grid;
+  gap: var(--stack-sm);
+}
+
+.rule {
+  border: 0;
+  border-top: 1px solid var(--c-rule);
+  margin-block: var(--stack-lg);
+}
+
+/* Two-column meta block, roughly 45/55 per §6. */
+.meta {
+  display: grid;
+  gap: var(--stack-md) var(--field-pad);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 48rem) {
+  .meta { grid-template-columns: 45fr 55fr; }
+}
+
+.meta-group + .meta-group { margin-top: var(--stack-md); }
+.meta-group dt { margin-bottom: 0.25rem; }
+.meta-group dd { margin: 0; }
+.meta-list { display: grid; gap: 0.15rem; }
+
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--stack-sm);
+  justify-content: space-between;
+  align-items: baseline;
+  padding-block: var(--stack-md);
+  border-top: 1px solid var(--c-rule);
+}
+
+/* ---------------------------------------------------------------------------
+   8. IMAGE PLACEHOLDERS  (spec §5)
+   ---------------------------------------------------------------------------
+   No real images exist yet. Each box shows what belongs there, and the string
+   inside it is the alt text already written on the live site — when a real
+   image drops in, that string moves straight to the alt attribute.
+   aspect-ratio prevents layout shift (§10).
+   Ratios are a GUESS per §5; adjust once real assets exist.
+   --------------------------------------------------------------------------- */
+
+.ph {
+  aspect-ratio: 3 / 2;
+  background: color-mix(in srgb, var(--c-ink) 5%, var(--c-surface));
+  border: 1px solid color-mix(in srgb, var(--c-ink) 18%, transparent);
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  margin: 0 0 var(--stack-md);
+}
+.ph[data-ratio="16-9"] { aspect-ratio: 16 / 9; }
+.ph[data-ratio="1-1"]  { aspect-ratio: 1 / 1; }
+.ph span {
+  font-size: var(--t-label);
+  color: color-mix(in srgb, var(--c-ink) 55%, transparent);
+  text-align: center;
+  max-width: 40ch;
+}
+
+/* ---------------------------------------------------------------------------
+   9. CASE STUDY  (spec §7 — built as a reusable pattern for future studies)
+   --------------------------------------------------------------------------- */
+
+.case { padding-block: var(--stack-md) var(--stack-lg); }
+.case-back { display: inline-block; margin-bottom: var(--stack-lg); }
+.case-head { display: grid; gap: var(--stack-sm); max-width: var(--measure); }
+.case-body { display: grid; gap: var(--stack-md); max-width: var(--measure); margin-top: var(--stack-lg); }
+.case-quote {
+  margin-block: var(--stack-md);
+  padding-left: var(--stack-sm);
+  border-left: 1px solid var(--c-rule);
+  font-style: italic;   /* §7 — the pull quote is set italic */
+}
+.case-figures { margin-top: var(--stack-lg); display: grid; gap: var(--stack-md); }
+.case-figures .ph { margin-bottom: 0; }
+.case-deliverables { display: grid; gap: 0.35rem; margin-top: var(--stack-sm); }
+.case-deliverables li { padding-left: 1.2em; text-indent: -1.2em; }
+.case-deliverables li::before { content: "— "; color: var(--c-ink-mute); }
+.case-next { margin-top: var(--stack-lg); padding-top: var(--stack-md); border-top: 1px solid var(--c-rule); }
+
+/* ---------------------------------------------------------------------------
+   10. CONTACT — form, standalone page, and dialog overlay  (spec §8)
+   ---------------------------------------------------------------------------
+   /contact/ is a REAL page. The overlay is layered on top of it by JS.
+   Page-first, not dialog-first: with JS off, or on middle-click / open-in-
+   new-tab, the contact link simply navigates and the form still works via
+   native POST.
+   --------------------------------------------------------------------------- */
+
+.contact-page { padding-block: var(--stack-lg); }
+.contact-intro { max-width: var(--measure); display: grid; gap: var(--stack-sm); }
+
+.form {
+  display: grid;
+  gap: var(--stack-sm);
+  max-width: 34rem;
+  margin-top: var(--stack-md);
+}
+.form label {
+  display: block;
+  margin-bottom: 0.4rem;
+}
+.form input[type="text"],
+.form input[type="email"],
+.form textarea {
+  width: 100%;
+  background: var(--c-surface);
+  color: var(--c-ink);
+  border: 1px solid var(--c-rule);
+  padding: 0.7rem 0.8rem;
+  font-family: var(--font-ui);
+  font-size: var(--t-body-lg);
+  font-style: italic;
+  border-radius: 0;
+  -webkit-appearance: none;
+}
+.form textarea { resize: vertical; min-height: 8rem; }
+.form input:focus-visible,
+.form textarea:focus-visible { outline: 2px solid var(--c-link); outline-offset: 2px; border-color: var(--c-link); }
+
+.btn {
+  justify-self: start;
+  background: var(--c-link);
+  color: var(--c-surface);
+  border: 1px solid var(--c-link);
+  padding: 0.7rem 1.4rem;
+  font-family: var(--font-mono);
+  font-size: var(--t-cta);
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  border-radius: 0;
+}
+.btn:hover { background: var(--c-ink); border-color: var(--c-ink); }
+.btn[disabled] { opacity: 0.6; cursor: progress; }
+
+.btn-quiet {
+  background: transparent;
+  color: var(--c-link);
+  border: 1px solid var(--c-rule);
+}
+.btn-quiet:hover { background: transparent; color: var(--c-ink); border-color: var(--c-ink); }
+
+/* Honeypot — hidden from humans, filled by bots (§8). */
+.form .honeypot { display: none; }
+
+/* Submission states (§8). All three live inside the same container so the
+   dialog does not resize jarringly between them. */
+.form-status { display: grid; gap: var(--stack-sm); max-width: 34rem; }
+[hidden] { display: none !important; }
+
+.form-fail {
+  border: 1px solid var(--c-link);
+  padding: var(--stack-sm);
+  margin-top: var(--stack-sm);
+}
+.form-fail p { margin-bottom: 0.5rem; }
+
+/* Dialog overlay */
+.contact-dialog {
+  border: 1px solid var(--c-rule);
+  background: var(--c-surface);
+  color: var(--c-ink);
+  padding: 0;
+  width: min(38rem, calc(100vw - (var(--frame-inset) * 4)));
+  max-height: calc(100vh - (var(--frame-inset) * 4));
+  max-height: calc(100dvh - (var(--frame-inset) * 4));
+  max-width: none;
+  border-radius: 0;
+}
+.contact-dialog::backdrop { background: color-mix(in srgb, var(--c-ink) 55%, transparent); }
+.contact-dialog-inner { padding: clamp(1.25rem, 4vw, 2.5rem); }
+.contact-dialog-head {
+  display: flex;
+  gap: var(--stack-sm);
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--stack-sm);
+}
+.dialog-close {
+  background: none;
+  border: 1px solid transparent;
+  color: var(--c-link);
+  font-family: var(--font-mono);
+  font-size: var(--t-caption);
+  line-height: 1;
+  padding: 0.35rem 0.5rem;
+  cursor: pointer;
+}
+.dialog-close:hover { color: var(--c-ink); }
+
+/* Open/close transition, respected only when motion is welcome (§8). */
+@media (prefers-reduced-motion: no-preference) {
+  .contact-dialog {
+    opacity: 0;
+    transform: translateY(0.5rem);
+    transition: opacity 180ms ease, transform 180ms ease, overlay 180ms allow-discrete, display 180ms allow-discrete;
+  }
+  .contact-dialog[open] { opacity: 1; transform: translateY(0); }
+  @starting-style {
+    .contact-dialog[open] { opacity: 0; transform: translateY(0.5rem); }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   11. 404
+   --------------------------------------------------------------------------- */
+
+.error-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--stack-sm);
+  min-height: calc(100vh - (var(--frame-inset) * 2) - var(--stack-lg) * 2);
+  min-height: calc(100dvh - (var(--frame-inset) * 2) - var(--stack-lg) * 2);
+  padding-block: var(--stack-lg);
+}
+
+/* ---------------------------------------------------------------------------
+   12. REDUCED MOTION  (§10)
+   --------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,15 @@
+<!-- Favicon. §9 asks for one; no favicon asset was captured from the live
+     site, so this is deliberately geometric — a plum dot on the frame field.
+     No lettering, because the display face (General Sans) cannot be embedded
+     here for licence reasons and any other face would misrepresent the mark.
+     Purely provisional: replace it when a real mark exists.
+
+     The two hex values below are the only place in the repo where colour is
+     written literally instead of via a token. An SVG file cannot read the
+     custom properties in tokens.css, so there is no way around it. They are
+     --c-frame (#F2E8B3) and --c-link (#592B43); if either token changes,
+     change it here too. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Amy Wong">
+  <rect width="32" height="32" fill="#F2E8B3"/>
+  <circle cx="16" cy="16" r="7" fill="#592B43"/>
+</svg>

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Not found — Amy Wong</title>
+<!-- §9 gives this page a title and an explicit em-dash for the description,
+     i.e. no description. None is emitted. -->
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<meta name="robots" content="noindex">
+
+<!-- General Sans stays on the Fontshare CDN — ITF licence forbids
+     redistribution and self-hosting without written consent, and this repo is
+     public. Reasoning in full in /index.html. Do not self-host it. -->
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@700&display=swap">
+
+<!-- ROOT-ABSOLUTE paths, unlike every other page in this repo, which uses
+     relative ones. GitHub Pages serves 404.html for a miss at ANY depth, so
+     a relative href here would resolve against the bogus path the visitor
+     typed. This only works because the site is a user site at the domain
+     root (amyinsvg.github.io, §11). If it is ever moved to a project page
+     under a subpath, these four paths need the prefix. -->
+<link rel="stylesheet" href="/assets/css/tokens.css">
+<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+<a class="skip t-nav" href="#main">Skip to content</a>
+
+<div class="frame">
+  <header class="site-header field">
+    <p class="t-brandmark">BRAND &amp; DIGITAL DESIGNER</p>
+    <nav class="site-nav" aria-label="Primary">
+      <a class="t-nav" href="/#info">Info</a>
+      <a class="t-nav" href="/contact/">Contact</a>
+      <a class="t-nav" href="https://www.instagram.com/amyinsvg" rel="me noopener" target="_blank">IG</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="error-page field" aria-labelledby="error-title">
+      <!-- TODO(spec-gap) §9 specifies this page's <title> but no body copy.
+           The two lines below are a build decision. -->
+      <p class="t-label">404</p>
+      <h1 class="t-h2" id="error-title">Not found</h1>
+      <p class="t-body-lg">That page isn't here.</p>
+      <p><a class="t-cta" href="/">← Back to the work</a></p>
+    </section>
+  </main>
+
+  <footer class="site-footer field">
+    <p><a class="t-cta" href="/">↑ Home</a></p>
+    <p class="t-tag">©2026 Chunky Melon Design</p>
+  </footer>
+</div>
+</body>
+</html>

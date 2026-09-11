@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Amy Wong — Brand &amp; Digital Designer</title>
+<meta name="description" content="Brand identity and website design for small businesses and independent creators.">
+<link rel="canonical" href="https://amyinsvg.github.io/">
+
+<!-- OG / Twitter per spec §9. There is deliberately NO og:image: no image
+     exists yet, and §9 says omit the tag rather than point it at the Cargo
+     screenshot, which breaks the moment the subscription ends. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Amy Wong">
+<meta property="og:title" content="Amy Wong — Brand &amp; Digital Designer">
+<meta property="og:description" content="Brand identity and website design for small businesses and independent creators.">
+<meta property="og:url" content="https://amyinsvg.github.io/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Amy Wong — Brand &amp; Digital Designer">
+<meta name="twitter:description" content="Brand identity and website design for small businesses and independent creators.">
+
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+
+<!-- ===================================================================== -->
+<!-- GENERAL SANS LOADS FROM THE FONTSHARE CDN. DO NOT SELF-HOST IT.       -->
+<!--                                                                       -->
+<!-- This is not an oversight and it is not a performance mistake. General  -->
+<!-- Sans is free for commercial use under the ITF Free Font License, but   -->
+<!-- that licence FORBIDS redistributing the font files and requires ITF's  -->
+<!-- WRITTEN CONSENT to self-host it as a webfont. This repository is       -->
+<!-- public, and a public GitHub Pages repo is a public server — committing -->
+<!-- the .woff2 into /assets/fonts/ would be redistribution.               -->
+<!--                                                                       -->
+<!-- Every other family in this site IS self-hosted, because Inter Tight,   -->
+<!-- Instrument Serif and DM Mono are SIL OFL. General Sans is the one      -->
+<!-- exception. If you are here to "fix the inconsistency" by pulling it    -->
+<!-- local: don't. Get written consent from ITF first.                      -->
+<!--                                                                       -->
+<!-- Only weight 700 is requested — the single weight the design uses.      -->
+<!-- ===================================================================== -->
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@700&display=swap">
+<!-- preconnect, not preload: the actual .woff2 URL sits behind this
+     stylesheet and is a rotating content hash, so a hardcoded preload would
+     silently go stale. Preconnecting warms the same two connections. -->
+
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/main.css">
+</head>
+
+<body>
+<a class="skip t-nav" href="#main">Skip to content</a>
+
+<div class="frame">
+
+  <header class="site-header field">
+    <p class="t-brandmark">BRAND &amp; DIGITAL DESIGNER</p>
+    <nav class="site-nav" aria-label="Primary">
+      <a class="t-nav" href="#info">Info</a>
+      <!-- /contact/ is a real page. contact.js upgrades this to an overlay
+           when JS is available; middle-click and JS-off both still navigate. -->
+      <a class="t-nav" href="contact/" data-contact-trigger>Contact</a>
+      <a class="t-nav" href="https://www.instagram.com/amyinsvg" rel="me noopener" target="_blank">IG</a>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <!-- ================= HERO ================= -->
+    <section class="hero field" id="top" aria-label="Introduction">
+      <!-- The name is a link to the first project on the live site. Behaviour
+           preserved; affordance added per §6 (focus ring + hover underline in
+           main.css, and the ↓ cue below). -->
+      <h1 class="t-hero"><a class="hero-name" href="#project-1">Amy<br>Wong</a></h1>
+      <p class="scroll-cue t-tag" aria-hidden="true">↓</p>
+    </section>
+
+    <!-- ================= PROJECTS =================
+         Element order follows §6's own enumeration: "title, eyebrow of
+         disciplines, one-line description, case study link, placeholder image,
+         ↓ Next". Note that puts the "eyebrow" BELOW the title, which reads
+         like a transcription slip in the spec — left exactly as written,
+         because this is a migration. Flagged for Amy.
+         ============================================ -->
+
+    <section class="project field" id="project-1" aria-labelledby="project-1-title">
+      <h2 class="t-project" id="project-1-title">Types &amp; Tomes</h2>
+      <p class="t-tag">BRAND, WEB, E-COMMERCE</p>
+      <p class="t-teaser">A small-batch craft brand — brand identity, website, and shop for a business built on handmade goods and Chinese knotting.</p>
+      <p><a class="t-cta" href="work/types-and-tomes/">View Case Study →</a></p>
+      <div class="project-media">
+        <figure class="ph" data-ratio="3-2">
+          <!-- Placeholder text is the live site's alt string; it moves to the
+               alt attribute when a real image lands (§5). -->
+          <span>Types &amp; Tomes brand identity — monotype logo and typewriter mark</span>
+        </figure>
+      </div>
+      <p class="next-cue"><a class="t-cta" href="#project-2">↓ Next</a></p>
+    </section>
+
+    <section class="project field" id="project-2" aria-labelledby="project-2-title">
+      <h2 class="t-project" id="project-2-title">Scott Campit</h2>
+      <p class="t-tag">WEB DESIGN, ART DIRECTION, VISUAL SYSTEM</p>
+      <p class="t-teaser">Brand, art direction, and website for an AI/ML engineer and founder — warm where technical portfolios default to cold.</p>
+      <!-- No case study target exists yet (§6). Rendered muted as a <span>, not
+           an <a>, so there is nothing to click, nothing to focus, and no
+           guessed URL. Swap to <a class="t-cta" href="…"> when it ships. -->
+      <p><span class="t-cta link-pending">View Case Study</span></p>
+      <div class="project-media">
+        <figure class="ph" data-ratio="3-2">
+          <!-- TODO(capture) §6: no alt string for this project was captured
+               from the live site. Descriptive stand-in below; replace with the
+               real alt text if it can still be recovered. -->
+          <span>Scott Campit — brand, art direction, and website (image to come)</span>
+        </figure>
+      </div>
+      <p class="next-cue"><a class="t-cta" href="#project-3">↓ Next</a></p>
+    </section>
+
+    <section class="project field" id="project-3" aria-labelledby="project-3-title">
+      <h2 class="t-project" id="project-3-title">Types &amp; Tomes: In The Wild</h2>
+      <p class="t-tag">PRINT, COLLATERAL, SOCIAL</p>
+      <p class="t-teaser">The brand in practice — ongoing print, social, and event design for Types &amp; Tomes.</p>
+      <p><span class="t-cta link-pending">View Case Study</span></p>
+      <div class="project-media">
+        <figure class="ph" data-ratio="3-2">
+          <!-- TODO(capture) §6: no alt string captured for this project. -->
+          <span>Types &amp; Tomes: In The Wild — print, collateral, and social design (image to come)</span>
+        </figure>
+      </div>
+      <p class="next-cue"><a class="t-cta" href="#info">↓ Next</a></p>
+    </section>
+
+    <!-- ================= INFO ================= -->
+    <section class="info field" id="info" aria-labelledby="info-title">
+      <h2 class="t-h1" id="info-title">Amy Wong</h2>
+
+      <!-- ===================================================================
+           TODO(capture) §6 — THE FIVE INFO PARAGRAPHS ARE NOT IN THE SPEC.
+           §6 says "the five paragraphs from the live site verbatim" but then
+           records only a topic for each, in parentheses:
+             (Chinese-American designer / biotech background / Types & Tomes /
+              currently taking on work / Chunky Melon named after Melon)
+           The actual prose was never transcribed. It is NOT reconstructed here
+           — inventing plausible bio copy would be indistinguishable from the
+           real thing later, which is worse than an obvious hole.
+           Each <p> below carries the spec's topic descriptor verbatim as a
+           stand-in. Paste the real paragraphs from amyinsvg.cargo.site before
+           the subscription lapses. See CAPTURE-TODO.md.
+           =================================================================== -->
+      <div class="info-prose">
+        <p class="t-body" data-capture="info-p1">Chinese-American designer</p>
+        <p class="t-body" data-capture="info-p2">Biotech background</p>
+        <p class="t-body" data-capture="info-p3">Types &amp; Tomes</p>
+        <p class="t-body" data-capture="info-p4">Currently taking on work</p>
+        <p class="t-body" data-capture="info-p5">Chunky Melon, named after Melon</p>
+      </div>
+
+      <hr class="rule">
+
+      <div class="meta">
+        <!-- Left column, ~45% (§6) -->
+        <div class="meta-col">
+          <!-- TODO(capture) §6 lists "email link" but the address itself was
+               never captured, and it is needed in two places: here and the
+               contact form's failure state. Defined ONCE in
+               assets/js/contact.js as CONTACT_EMAIL and written here in the
+               markup — update both. example.com is IANA-reserved, so this
+               placeholder cannot reach a real third party by accident.
+               BLOCKING: fill this in before deploy. -->
+          <p class="t-body">
+            <a href="mailto:hello@example.com" data-contact-trigger data-contact-email>hello@example.com</a>
+          </p>
+          <p class="t-body">IG: <a href="https://www.instagram.com/amyinsvg" rel="me noopener" target="_blank">@amyinsvg</a></p>
+
+          <dl class="meta-group">
+            <dt class="t-label">CURRENTLY</dt>
+            <!-- Transcribed as-is. "Booking Q3 2026" is known-stale and is
+                 flagged for Amy in §6, explicitly NOT for this build to fix. -->
+            <dd class="t-currently">Open for freelance projects. Booking Q3 2026.</dd>
+          </dl>
+
+          <dl class="meta-group">
+            <dt class="t-label">STUDIO</dt>
+            <!-- "Based in California" is the second known-stale string (§6).
+                 Also transcribed as-is, also not ours to correct. -->
+            <dd class="t-body">Based in California. Working with clients everywhere.</dd>
+          </dl>
+
+          <dl class="meta-group">
+            <dt class="t-label">WORKING ON SOMETHING?</dt>
+            <dd><a class="t-cta" href="contact/" data-contact-trigger>Let's talk →</a></dd>
+          </dl>
+        </div>
+
+        <!-- Right column, ~55% (§6) -->
+        <div class="meta-col">
+          <dl class="meta-group">
+            <dt class="t-label">SERVICES</dt>
+            <dd class="t-body">
+              <ul class="meta-list">
+                <li>Brand Identity</li>
+                <li>Website Design</li>
+              </ul>
+            </dd>
+          </dl>
+
+          <dl class="meta-group">
+            <dt class="t-label">FORMATS</dt>
+            <dd class="t-body">
+              <ul class="meta-list">
+                <li>Logo &amp; Visual Systems</li>
+                <li>Websites &amp; Digital</li>
+                <li>Print</li>
+                <li>Packaging</li>
+                <li>Social Media &amp; Marketing</li>
+              </ul>
+            </dd>
+          </dl>
+
+          <dl class="meta-group">
+            <dt class="t-label">ENGAGEMENTS</dt>
+            <dd class="t-body">
+              <ul class="meta-list">
+                <li>One-Off Projects</li>
+                <li>Retainer Partnerships</li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer field">
+    <p><a class="t-cta" href="#top">↑ Top</a></p>
+    <p class="t-tag">©2026 Chunky Melon Design</p>
+  </footer>
+
+</div>
+
+<script src="assets/js/contact.js" defer></script>
+</body>
+</html>

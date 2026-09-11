@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- TODO(spec-gap) §9's metadata table covers /, /work/types-and-tomes/ and
+     404 only. No <title> or description was specified for /contact/ or for the
+     thank-you state. Written in the same pattern as the rows that were
+     specified; change freely, nothing was captured to contradict it. -->
+<title>Contact — Amy Wong</title>
+<meta name="description" content="Get in touch about brand identity and website design work.">
+<link rel="canonical" href="https://amyinsvg.github.io/contact/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Amy Wong">
+<meta property="og:title" content="Contact — Amy Wong">
+<meta property="og:description" content="Get in touch about brand identity and website design work.">
+<meta property="og:url" content="https://amyinsvg.github.io/contact/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Contact — Amy Wong">
+<meta name="twitter:description" content="Get in touch about brand identity and website design work.">
+
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+
+<!-- General Sans loads from the Fontshare CDN and is never committed to this
+     repo: the ITF Free Font License forbids redistributing the files and
+     requires written consent to self-host as a webfont, and this repo is
+     public. The full reasoning is in index.html — do not "fix" this to a
+     self-host. Only weight 700 is requested. -->
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@700&display=swap">
+
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+
+<body>
+<a class="skip t-nav" href="#main">Skip to content</a>
+
+<div class="frame">
+
+  <header class="site-header field">
+    <p class="t-brandmark">BRAND &amp; DIGITAL DESIGNER</p>
+    <nav class="site-nav" aria-label="Primary">
+      <a class="t-nav" href="../#info">Info</a>
+      <a class="t-nav" aria-current="page" href="./">Contact</a>
+      <a class="t-nav" href="https://www.instagram.com/amyinsvg" rel="me noopener" target="_blank">IG</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="contact-page field" aria-labelledby="contact-title">
+
+      <p><a class="t-cta" href="../">← Back</a></p>
+
+      <div class="contact-intro">
+        <!-- TODO(spec-gap) No heading or intro copy for this page was
+             captured; §8 specifies only the form itself. Heading text and
+             style are a build decision (.t-h2, matching the case study page's
+             title style). No prose has been invented beyond this heading. -->
+        <h1 class="t-h2" id="contact-title">Contact</h1>
+      </div>
+
+      <!-- =====================================================================
+           THE CANONICAL FORM (spec §8).
+           This is the no-JS path: a native POST to Web3Forms, which then
+           redirects to /contact/thanks/.
+
+           contact.js progressively enhances this same form to submit by fetch
+           and render the three states in place, and removes the `redirect`
+           field when it does so that Web3Forms answers with JSON instead of a
+           redirect.
+
+           NOTE — the overlay's copy of this form is built in assets/js/contact.js.
+           Two copies exist because there is no build step to share a partial.
+           If you change a field here, change it there too.
+           ===================================================================== -->
+      <form class="form" id="contact-form"
+            action="https://api.web3forms.com/submit" method="POST">
+
+        <!-- The access_key is PUBLIC BY DESIGN and safe to commit. It lives in
+             client-side HTML by definition — like a Firebase web config key.
+             What protects it is the domain restriction (the form is registered
+             to amyinsvg.github.io), not secrecy.
+             Consequence for local work: submissions from localhost or file://
+             will be REJECTED, and that is correct behaviour. Stub the network
+             call to test the UI states; do not weaken the restriction to make
+             local testing convenient. -->
+        <input type="hidden" name="access_key" value="4dc4b306-f30b-43bf-acf0-1f364a38059d">
+        <input type="hidden" name="subject" value="New enquiry from amyinsvg.github.io">
+
+        <!-- No-JS thank-you target (§8). Absolute URL because Web3Forms issues
+             the redirect server-side. Removed by contact.js on the fetch path. -->
+        <input type="hidden" name="redirect" value="https://amyinsvg.github.io/contact/thanks/" data-redirect>
+
+        <!-- honeypot: hidden from humans, filled by bots.
+             display:none is kept INLINE, as the spec wrote it, rather than
+             moved to a class — if main.css ever fails to load, an inline style
+             still hides it. A visible honeypot that a human ticks would get a
+             real enquiry silently classed as spam. -->
+        <input type="checkbox" name="botcheck" class="honeypot" style="display:none" tabindex="-1" autocomplete="off">
+
+        <div>
+          <label class="t-label" for="name">Name</label>
+          <input type="text" name="name" id="name" autocomplete="name" required>
+        </div>
+
+        <div>
+          <label class="t-label" for="email">Email</label>
+          <input type="email" name="email" id="email" autocomplete="email" required>
+        </div>
+
+        <div>
+          <label class="t-label" for="message">What are you working on?</label>
+          <textarea name="message" id="message" rows="5" required></textarea>
+        </div>
+
+        <button class="btn" type="submit" data-submit>Send</button>
+      </form>
+
+      <!-- Live region for the enhanced path's three states. Empty and hidden
+           on the no-JS path, where Web3Forms' redirect does this job instead. -->
+      <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
+
+    </section>
+  </main>
+
+  <footer class="site-footer field">
+    <p><a class="t-cta" href="../">↑ Home</a></p>
+    <p class="t-tag">©2026 Chunky Melon Design</p>
+  </footer>
+
+</div>
+
+<script src="../assets/js/contact.js" defer></script>
+</body>
+</html>

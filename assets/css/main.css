@@ -272,7 +272,19 @@ button, input, textarea, select { font: inherit; color: inherit; }
   color: var(--c-ink);
 }
 
-/* Teaser caption — Instrument Serif, 1.35rem/1.65, 0, 400, grey. */
+/* Teaser caption — Instrument Serif, 1.35rem/1.65, 0, 400, grey.
+
+   OPEN QUESTION — do not resolve without Amy. This class is applied to the
+   homepage project descriptions, on the strength of §4's style NAME alone.
+   The Cargo source sets those descriptions in a SANS at roughly body size,
+   which looks like Inter Tight — so "Teaser caption" most likely belongs to
+   some other element and this is a mis-mapping, one instance of the
+   unverified style-to-element mapping flagged at the top of section 4.
+
+   Left as-is deliberately, pending Amy's call. If she wants it matched to the
+   source it becomes Inter Tight at body size, and Instrument Serif then goes
+   UNUSED on the homepage (it would still be carrying the case study dek and
+   pull quote, so the face stays loaded either way). */
 .t-teaser {
   font-family: var(--font-serif);
   font-size: var(--t-teaser);
@@ -415,6 +427,41 @@ a:hover { text-decoration-thickness: 2px; }
   outline-offset: 3px;
 }
 
+/* VIEW CASE STUDY — all-caps mono in plum with no underline, per the source.
+   The caps come from text-transform rather than literal capitals in the
+   markup, deliberately: some screen readers spell out literal all-caps words
+   letter by letter, and this way the accessible name stays "View Case Study".
+   With no persistent underline it needs its own hover and focus affordances;
+   the shared :focus-visible ring supplies the latter. */
+.cta-case {
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.cta-case:hover { color: var(--c-ink); }
+
+/* ↓ Next — Inter Tight in ink, not the mono plum treatment, and no underline.
+   The 0.08em tracking that comes with .t-cta is dropped too: it is a mono/caps
+   device and reads as a mistake on sans. Size is left at --t-cta since the
+   brief named family, colour and underline only. Both of those are one-line
+   reverts if the comparison says otherwise. */
+.cta-next {
+  font-family: var(--font-ui);
+  color: var(--c-ink);
+  letter-spacing: 0;
+  text-decoration: none;
+}
+.cta-next:hover { color: var(--c-link); }
+
+/* Let's talk → — the strongest thing in the meta block. Inter Tight Medium
+   500 as the starting point; plum, underline and arrow all kept. 500 is
+   already loaded (it is the Medium in the variable roman file), so this costs
+   no extra payload. */
+.cta-talk {
+  font-family: var(--font-ui);
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
 /* A muted, non-navigating stand-in for links whose target does not exist yet
    (projects 2 and 3, "Next → Scott Campit", and the In The Wild in-body link).
    Rendered as a <span>, not an <a>, so there is nothing to focus or click and
@@ -429,6 +476,9 @@ a:hover { text-decoration-thickness: 2px; }
   font-family: var(--font-mono);
   font-size: var(--t-label);
   letter-spacing: 0.08em;
+  /* text-transform inherits into ::after, and .cta-case now uppercases its
+     parent — without this the suffix would shout "(COMING SOON)". */
+  text-transform: none;
 }
 
 /* ---------------------------------------------------------------------------
@@ -568,6 +618,24 @@ a:hover { text-decoration-thickness: 2px; }
 
 .project > * { max-width: var(--measure); }
 .project .ph { max-width: none; }
+
+/* Title row: title left, disciplines right, baselines aligned — one row, as
+   the source has it. §6 listed them sequentially, which is what produced the
+   old stack.
+
+   max-width: none so the disciplines reach the block's content edge rather
+   than stopping at --measure; the measure still caps the description below.
+   flex-wrap means that on a narrow column the disciplines drop to their own
+   line, left-aligned (space-between puts a lone item on a line at the start),
+   which is the right fallback. */
+.project-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--stack-sm);
+  align-items: baseline;
+  justify-content: space-between;
+  max-width: none;
+}
 
 .project-media { margin-top: var(--stack-sm); }
 

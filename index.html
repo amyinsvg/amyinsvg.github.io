@@ -93,18 +93,33 @@
     </section>
 
     <!-- ================= PROJECTS =================
-         Element order follows §6's own enumeration: "title, eyebrow of
-         disciplines, one-line description, case study link, placeholder image,
-         ↓ Next". Note that puts the "eyebrow" BELOW the title, which reads
-         like a transcription slip in the spec — left exactly as written,
-         because this is a migration. Flagged for Amy.
+         Order and structure now match the Cargo source, superseding §6's
+         sequential list:
+
+           title + disciplines   (ONE row: title left, disciplines right,
+                                  baselines aligned)
+           description
+           image
+           VIEW CASE STUDY →
+           ↓ Next
+
+         §6 listed these one after another, which is what produced the old
+         stacked title/eyebrow and put the case study link above the image.
+         That was a spec error, not a migration decision — the "eyebrow below
+         the title" oddity flagged earlier was the symptom.
          ============================================ -->
 
     <section class="block project" id="project-1" aria-labelledby="project-1-title">
-      <h2 class="t-project" id="project-1-title">Types &amp; Tomes</h2>
-      <p class="t-tag">BRAND, WEB, E-COMMERCE</p>
+      <div class="project-head">
+        <h2 class="t-project" id="project-1-title">Types &amp; Tomes</h2>
+        <p class="t-tag">BRAND, WEB, E-COMMERCE</p>
+      </div>
+      <!-- OPEN QUESTION, not a bug: the source sets these descriptions in a
+           sans (looks like Inter Tight at body size), not Instrument Serif.
+           .t-teaser is applied here from §4's style name alone and is probably
+           a mis-mapping. Awaiting Amy's decision — see the note at .t-teaser
+           in main.css. All three project descriptions are affected. -->
       <p class="t-teaser">A small-batch craft brand — brand identity, website, and shop for a business built on handmade goods and Chinese knotting.</p>
-      <p><a class="t-cta" href="work/types-and-tomes/">View Case Study →</a></p>
       <div class="project-media">
         <!-- data-alt-source="written" — the live site has no images in the
              homepage project blocks, so there was no alt text to transcribe.
@@ -116,36 +131,41 @@
           <span data-alt-source="written">Types &amp; Tomes brand identity and packaging</span>
         </figure>
       </div>
-      <p class="next-cue"><a class="t-cta" href="#project-2">↓ Next</a></p>
+      <p><a class="t-cta cta-case" href="work/types-and-tomes/">View Case Study →</a></p>
+      <p class="next-cue"><a class="t-cta cta-next" href="#project-2">↓ Next</a></p>
     </section>
 
     <section class="block project" id="project-2" aria-labelledby="project-2-title">
-      <h2 class="t-project" id="project-2-title">Scott Campit</h2>
-      <p class="t-tag">WEB DESIGN, ART DIRECTION, VISUAL SYSTEM</p>
+      <div class="project-head">
+        <h2 class="t-project" id="project-2-title">Scott Campit</h2>
+        <p class="t-tag">WEB DESIGN, ART DIRECTION, VISUAL SYSTEM</p>
+      </div>
       <p class="t-teaser">Brand, art direction, and website for an AI/ML engineer and founder — warm where technical portfolios default to cold.</p>
-      <!-- No case study target exists yet (§6). Rendered muted as a <span>, not
-           an <a>, so there is nothing to click, nothing to focus, and no
-           guessed URL. Swap to <a class="t-cta" href="…"> when it ships. -->
-      <p><span class="t-cta link-pending">View Case Study</span></p>
       <div class="project-media">
         <figure class="ph" data-ratio="3-2">
           <span data-alt-source="written">Scott Campit website and visual system</span>
         </figure>
       </div>
-      <p class="next-cue"><a class="t-cta" href="#project-3">↓ Next</a></p>
+      <!-- No case study target exists yet (§6). Rendered muted as a <span>, not
+           an <a>, so there is nothing to click, nothing to focus, and no
+           guessed URL. Swap to <a class="t-cta" href="…"> when it ships. -->
+      <p><span class="t-cta cta-case link-pending">View Case Study</span></p>
+      <p class="next-cue"><a class="t-cta cta-next" href="#project-3">↓ Next</a></p>
     </section>
 
     <section class="block project" id="project-3" aria-labelledby="project-3-title">
-      <h2 class="t-project" id="project-3-title">Types &amp; Tomes: In The Wild</h2>
-      <p class="t-tag">PRINT, COLLATERAL, SOCIAL</p>
+      <div class="project-head">
+        <h2 class="t-project" id="project-3-title">Types &amp; Tomes: In The Wild</h2>
+        <p class="t-tag">PRINT, COLLATERAL, SOCIAL</p>
+      </div>
       <p class="t-teaser">The brand in practice — ongoing print, social, and event design for Types &amp; Tomes.</p>
-      <p><span class="t-cta link-pending">View Case Study</span></p>
       <div class="project-media">
         <figure class="ph" data-ratio="3-2">
           <span data-alt-source="written">Types &amp; Tomes print and event collateral</span>
         </figure>
       </div>
-      <p class="next-cue"><a class="t-cta" href="#info">↓ Next</a></p>
+      <p><span class="t-cta cta-case link-pending">View Case Study</span></p>
+      <p class="next-cue"><a class="t-cta cta-next" href="#info">↓ Next</a></p>
     </section>
 
     <!-- ================= INFO ================= -->
@@ -195,7 +215,7 @@
 
           <dl class="meta-group">
             <dt class="t-label">WORKING ON SOMETHING?</dt>
-            <dd><a class="t-cta" href="contact/" data-contact-trigger>Let's talk →</a></dd>
+            <dd><a class="t-cta cta-talk" href="contact/" data-contact-trigger>Let's talk →</a></dd>
           </dl>
         </div>
 

@@ -194,4 +194,4 @@ grep -rn 'data-alt-source="written"' .
 
 Replace them when real images land; per spec §5 the string then moves to the
 `alt` attribute. Two strings are knowingly stale and left as found, flagged for
-Amy rather than corrected here: "Booking Q3 2026" and "Based in California".
+Amy rather than corrected here: "Booking Q3 2026".

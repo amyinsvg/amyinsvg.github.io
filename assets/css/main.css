@@ -152,7 +152,10 @@ button, input, textarea, select { font: inherit; color: inherit; }
   background: var(--c-surface);
   margin-inline: var(--block-inset);
   padding: var(--block-pad);
-  scroll-margin-top: var(--block-gap);
+  /* --block-gap-abs, not --block-gap: scroll-margin does NOT accept
+     percentages, so the percentage form was silently ignored and anchor
+     targets landed flush against the viewport top. */
+  scroll-margin-top: var(--block-gap-abs);
 }
 
 /* Uniform yellow gap between blocks.
@@ -505,11 +508,24 @@ a:hover { text-decoration-thickness: 2px; }
 .hero-name:hover,
 .hero-name:focus-visible { text-decoration: underline; text-decoration-thickness: 2px; }
 
+/* The scroll cue is a link (see index.html). Undecorated by default so it
+   still reads as a cue rather than body copy, with colour shifting to ink on
+   hover and focus; the shared :focus-visible ring applies on top. */
 .scroll-cue {
   margin-top: var(--stack-md);
   color: var(--c-ink-mute);
   font-style: normal;
+  text-decoration: none;
+  align-self: flex-start;
+  /* The glyph is only ~11px wide, which is far too small a tap target now
+     that it is a control. Padding gives it a ~33px hit area; the matching
+     negative inline-start margin keeps the arrow visually flush with the
+     text above it, so the hit area grows but nothing moves. */
+  padding: 0.6rem 0.7rem;
+  margin-inline-start: -0.7rem;
 }
+.scroll-cue:hover,
+.scroll-cue:focus-visible { color: var(--c-ink); }
 
 /* Project blocks. Each is its own cream block now, so the border-top
    separator the old single-field model needed is gone — the yellow gap does

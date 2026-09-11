@@ -47,9 +47,9 @@
      the deliverables, and the .case-next target.
      ========================================================================= -->
 
-<div class="frame">
+<div class="page">
 
-  <header class="site-header field">
+  <header class="site-header">
     <p class="t-brandmark">BRAND &amp; DIGITAL DESIGNER</p>
     <nav class="site-nav" aria-label="Primary">
       <a class="t-nav" href="../../#info">Info</a>
@@ -59,7 +59,7 @@
   </header>
 
   <main id="main">
-    <article class="case field">
+    <article class="block case">
 
       <!-- Label transcribed verbatim from §7. Note that §2's file tree has no
            /work/ index page for it to point at — the projects live on the home
@@ -83,76 +83,46 @@
 
       <div class="case-body">
 
-        <!-- ===================================================================
-             TODO(capture) §7 — THE BODY PARAGRAPHS ARE TRUNCATED IN THE SPEC.
-             §7 says the full body copy "is on the live site and should be
-             transcribed verbatim", but what it actually records are two opening
-             fragments that trail off mid-sentence:
-                 "Types & Tomes is a small-batch craft brand rooted in..."
-                 "The brand runs on a tight core system..."
-             The rest was never captured. The fragments below are reproduced
-             exactly as the spec has them, ellipsis included, and the remainder
-             is NOT invented — made-up case study prose would be impossible to
-             tell from the real thing a year from now.
-             Finish these from amyinsvg.cargo.site before it lapses.
-             See CAPTURE-TODO.md.
-             =================================================================== -->
-        <p class="t-body-lg" data-capture="case-body-1">Types &amp; Tomes is a small-batch craft brand rooted in&#8230;</p>
+        <p class="t-body-lg">Types &amp; Tomes is a small-batch craft brand rooted in mechanical keyboards, books, and Chinese knotting. It sells handmade goods at markets, runs hands-on workshops, and works with corporate brand partners on cultural activations — three audiences, three registers, one brand. The design challenge was building a system flexible enough to shift modes without losing what makes Types &amp; Tomes itself.</p>
 
         <!-- The pull quote IS complete in the spec — transcribed in full. -->
         <blockquote class="case-quote t-pullquote">
           <p>Small 3D objects drift across the homepage — because a craft shop built around handmade things should feel like one, even on a screen.</p>
         </blockquote>
 
-        <p class="t-body-lg" data-capture="case-body-2">The brand runs on a tight core system&#8230;</p>
+        <p class="t-body-lg">The brand runs on a tight core system — warm cream backgrounds, a serif wordmark, monospaced type for almost everything functional, the typewriter mark as anchor — but the tone flexes. A market price card reads warm and approachable. A corporate brand activation deck reads capable and professional. A workshop zine leans fully editorial, mixing faces to match the content inside. Same brand, different voices.</p>
 
-        <!-- §7: "The two in-body links to typesandtomes.com and In The Wild:
-             keep the first, mute the second."
-             TODO(capture) Their PLACEMENT is unverified — the prose that
-             surrounded them was not captured, so they sit here as their own
-             line rather than inline. Move them into the sentences they belong
-             to once the paragraphs above are completed. -->
-        <p class="t-body-lg">
-          The shop is live at <a href="https://typesandtomes.com" rel="noopener" target="_blank">typesandtomes.com</a>.
-          Ongoing print and social work continues in
-          <span class="link-pending">Types &amp; Tomes: In The Wild</span>
-        </p>
       </div>
 
       <div class="case-figures">
-        <!-- Four 3-2 placeholders per §7.
-             TODO(capture) §7 says "alt text from live site" but only the 16-9
-             image's string was actually transcribed. The four below are
-             descriptive stand-ins, NOT the live copy. Replace them with the
-             real alt text if it can still be recovered; each string then moves
-             to the alt attribute when the image itself arrives (§5).
-             Ratios are a guess per §5. -->
+        <!-- Alt strings transcribed from the live site, in document order.
+             Per §5 each moves to the alt attribute when the real image lands.
+             Aspect ratios remain a guess per §5. -->
         <figure class="ph" data-ratio="3-2">
-          <span>Types &amp; Tomes — brand system detail (alt text to recover)</span>
+          <span>Types &amp; Tomes DIY Chinese knot kit with instruction zine</span>
         </figure>
         <figure class="ph" data-ratio="3-2">
-          <span>Types &amp; Tomes — website and shop screens (alt text to recover)</span>
+          <span>Types &amp; Tomes handbound instruction zine interior</span>
         </figure>
         <figure class="ph" data-ratio="3-2">
-          <span>Types &amp; Tomes — packaging and print collateral (alt text to recover)</span>
+          <span>Types &amp; Tomes market booth setup with handmade goods</span>
         </figure>
         <figure class="ph" data-ratio="3-2">
-          <span>Types &amp; Tomes — Chinese knotting product photography (alt text to recover)</span>
+          <span>Types &amp; Tomes website homepage in cream and black palette</span>
         </figure>
       </div>
 
       <div class="case-body">
         <h2 class="t-label">DELIVERABLES</h2>
-        <!-- TODO(capture) §7 says "Deliverables list (4 items, transcribe
-             verbatim)" but does not include the four items. They were never
-             captured. Four marked placeholders are kept so the layout is
-             real; the wording is NOT guessed. Transcribe from the live site.
-             See CAPTURE-TODO.md. -->
         <ul class="case-deliverables t-body">
-          <li data-capture="deliverable-1">Deliverable 1 — to transcribe from the live site</li>
-          <li data-capture="deliverable-2">Deliverable 2 — to transcribe from the live site</li>
-          <li data-capture="deliverable-3">Deliverable 3 — to transcribe from the live site</li>
-          <li data-capture="deliverable-4">Deliverable 4 — to transcribe from the live site</li>
+          <li>Brand identity system — logo, typography, color, voice</li>
+          <li>E-commerce site at <a href="https://typesandtomes.com" rel="noopener" target="_blank">typesandtomes.com</a> — hand-coded in HTML and CSS, with an animated storefront</li>
+          <li>DIY knot kit system — packaging, product pages, and handbound instruction zines</li>
+          <!-- Item 4 points at a case study that 404s, so per the existing rule
+               it renders as a <span>, arrow included. Note the source writes
+               "In the Wild" here but "In The Wild" as the project title on the
+               homepage; both are transcribed as found. -->
+          <li>Ongoing collateral documented in <span class="link-pending">Types &amp; Tomes: In the Wild →</span></li>
         </ul>
       </div>
 
@@ -164,7 +134,7 @@
     </article>
   </main>
 
-  <footer class="site-footer field">
+  <footer class="site-footer block">
     <p><a class="t-cta" href="../../">↑ Home</a></p>
     <p class="t-tag">©2026 Chunky Melon Design</p>
   </footer>

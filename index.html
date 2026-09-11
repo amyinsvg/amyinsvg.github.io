@@ -53,9 +53,9 @@
 <body>
 <a class="skip t-nav" href="#main">Skip to content</a>
 
-<div class="frame">
+<div class="page">
 
-  <header class="site-header field">
+  <header class="site-header">
     <p class="t-brandmark">BRAND &amp; DIGITAL DESIGNER</p>
     <nav class="site-nav" aria-label="Primary">
       <a class="t-nav" href="#info">Info</a>
@@ -69,7 +69,7 @@
   <main id="main">
 
     <!-- ================= HERO ================= -->
-    <section class="hero field" id="top" aria-label="Introduction">
+    <section class="block hero" id="top" aria-label="Introduction">
       <!-- The name is a link to the first project on the live site. Behaviour
            preserved; affordance added per §6 (focus ring + hover underline in
            main.css, and the ↓ cue below). -->
@@ -85,22 +85,26 @@
          because this is a migration. Flagged for Amy.
          ============================================ -->
 
-    <section class="project field" id="project-1" aria-labelledby="project-1-title">
+    <section class="block project" id="project-1" aria-labelledby="project-1-title">
       <h2 class="t-project" id="project-1-title">Types &amp; Tomes</h2>
       <p class="t-tag">BRAND, WEB, E-COMMERCE</p>
       <p class="t-teaser">A small-batch craft brand — brand identity, website, and shop for a business built on handmade goods and Chinese knotting.</p>
       <p><a class="t-cta" href="work/types-and-tomes/">View Case Study →</a></p>
       <div class="project-media">
+        <!-- data-alt-source="written" — the live site has no images in the
+             homepage project blocks, so there was no alt text to transcribe.
+             These three strings were WRITTEN, not captured. Replace them when
+             real images land; per §5 the string then moves to the alt
+             attribute. The case study's strings are transcribed and carry no
+             such marker. -->
         <figure class="ph" data-ratio="3-2">
-          <!-- Placeholder text is the live site's alt string; it moves to the
-               alt attribute when a real image lands (§5). -->
-          <span>Types &amp; Tomes brand identity — monotype logo and typewriter mark</span>
+          <span data-alt-source="written">Types &amp; Tomes brand identity and packaging</span>
         </figure>
       </div>
       <p class="next-cue"><a class="t-cta" href="#project-2">↓ Next</a></p>
     </section>
 
-    <section class="project field" id="project-2" aria-labelledby="project-2-title">
+    <section class="block project" id="project-2" aria-labelledby="project-2-title">
       <h2 class="t-project" id="project-2-title">Scott Campit</h2>
       <p class="t-tag">WEB DESIGN, ART DIRECTION, VISUAL SYSTEM</p>
       <p class="t-teaser">Brand, art direction, and website for an AI/ML engineer and founder — warm where technical portfolios default to cold.</p>
@@ -110,52 +114,38 @@
       <p><span class="t-cta link-pending">View Case Study</span></p>
       <div class="project-media">
         <figure class="ph" data-ratio="3-2">
-          <!-- TODO(capture) §6: no alt string for this project was captured
-               from the live site. Descriptive stand-in below; replace with the
-               real alt text if it can still be recovered. -->
-          <span>Scott Campit — brand, art direction, and website (image to come)</span>
+          <span data-alt-source="written">Scott Campit website and visual system</span>
         </figure>
       </div>
       <p class="next-cue"><a class="t-cta" href="#project-3">↓ Next</a></p>
     </section>
 
-    <section class="project field" id="project-3" aria-labelledby="project-3-title">
+    <section class="block project" id="project-3" aria-labelledby="project-3-title">
       <h2 class="t-project" id="project-3-title">Types &amp; Tomes: In The Wild</h2>
       <p class="t-tag">PRINT, COLLATERAL, SOCIAL</p>
       <p class="t-teaser">The brand in practice — ongoing print, social, and event design for Types &amp; Tomes.</p>
       <p><span class="t-cta link-pending">View Case Study</span></p>
       <div class="project-media">
         <figure class="ph" data-ratio="3-2">
-          <!-- TODO(capture) §6: no alt string captured for this project. -->
-          <span>Types &amp; Tomes: In The Wild — print, collateral, and social design (image to come)</span>
+          <span data-alt-source="written">Types &amp; Tomes print and event collateral</span>
         </figure>
       </div>
       <p class="next-cue"><a class="t-cta" href="#info">↓ Next</a></p>
     </section>
 
     <!-- ================= INFO ================= -->
-    <section class="info field" id="info" aria-labelledby="info-title">
+    <section class="block info" id="info" aria-labelledby="info-title">
       <h2 class="t-h1" id="info-title">Amy Wong</h2>
 
-      <!-- ===================================================================
-           TODO(capture) §6 — THE FIVE INFO PARAGRAPHS ARE NOT IN THE SPEC.
-           §6 says "the five paragraphs from the live site verbatim" but then
-           records only a topic for each, in parentheses:
-             (Chinese-American designer / biotech background / Types & Tomes /
-              currently taking on work / Chunky Melon named after Melon)
-           The actual prose was never transcribed. It is NOT reconstructed here
-           — inventing plausible bio copy would be indistinguishable from the
-           real thing later, which is worse than an obvious hole.
-           Each <p> below carries the spec's topic descriptor verbatim as a
-           stand-in. Paste the real paragraphs from amyinsvg.cargo.site before
-           the subscription lapses. See CAPTURE-TODO.md.
-           =================================================================== -->
+      <!-- The five Info paragraphs, transcribed verbatim from the live site.
+           "based in California" in the first paragraph is knowingly stale and
+           is left as found — flagged for Amy, not ours to correct. -->
       <div class="info-prose">
-        <p class="t-body" data-capture="info-p1">Chinese-American designer</p>
-        <p class="t-body" data-capture="info-p2">Biotech background</p>
-        <p class="t-body" data-capture="info-p3">Types &amp; Tomes</p>
-        <p class="t-body" data-capture="info-p4">Currently taking on work</p>
-        <p class="t-body" data-capture="info-p5">Chunky Melon, named after Melon</p>
+        <p class="t-body">I'm a Chinese-American designer based in California, working with small businesses &amp; independent creators. My work lives where identity meets the ongoing: like logos and websites, but also the market signage, prints, and packaging that keep a brand alive after launch.</p>
+        <p class="t-body">I came to design from biotech with degrees in Biochemistry (B.Sc. and M.S.). It sounds like a non sequitur until you notice that both are about observation, pattern-finding, and making complicated things feel simple.</p>
+        <p class="t-body">Outside of client work, I run Types &amp; Tomes, a small-batch craft brand built around Chinese knotting, books, and mechanical keyboards. It keeps me making things with my hands in a career that's mostly pixels.</p>
+        <p class="t-body">I'm currently taking on brand and website work for small businesses and independent creators I'm excited about.</p>
+        <p class="t-body">My studio, Chunky Melon Design, is named after my fat cat, Melon.</p>
       </div>
 
       <hr class="rule">
@@ -163,15 +153,10 @@
       <div class="meta">
         <!-- Left column, ~45% (§6) -->
         <div class="meta-col">
-          <!-- TODO(capture) §6 lists "email link" but the address itself was
-               never captured, and it is needed in two places: here and the
-               contact form's failure state. Defined ONCE in
-               assets/js/contact.js as CONTACT_EMAIL and written here in the
-               markup — update both. example.com is IANA-reserved, so this
-               placeholder cannot reach a real third party by accident.
-               BLOCKING: fill this in before deploy. -->
+          <!-- The address also appears as CONTACT_EMAIL in assets/js/contact.js,
+               for the contact form's failure-state fallback. Change both. -->
           <p class="t-body">
-            <a href="mailto:hello@example.com" data-contact-trigger data-contact-email>hello@example.com</a>
+            <a href="mailto:amyinsvg@gmail.com" data-contact-trigger data-contact-email>amyinsvg@gmail.com</a>
           </p>
           <p class="t-body">IG: <a href="https://www.instagram.com/amyinsvg" rel="me noopener" target="_blank">@amyinsvg</a></p>
 
@@ -235,7 +220,7 @@
 
   </main>
 
-  <footer class="site-footer field">
+  <footer class="site-footer block">
     <p><a class="t-cta" href="#top">↑ Top</a></p>
     <p class="t-tag">©2026 Chunky Melon Design</p>
   </footer>

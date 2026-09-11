@@ -35,13 +35,10 @@
   var ACCESS_KEY = "4dc4b306-f30b-43bf-acf0-1f364a38059d";
   var SUBJECT = "New enquiry from amyinsvg.github.io";
 
-  /* TODO(capture) The real address was never captured from the live site.
-     It is needed in two places — the Info block's email link in index.html
-     and the failure state below. This constant is the single definition for
-     the JS side; index.html carries its own copy in the markup. Update BOTH.
-     example.com is IANA-reserved so this cannot reach a real third party.
-     BLOCKING: fill this in before deploy. See CAPTURE-TODO.md. */
-  var CONTACT_EMAIL = "hello@example.com";
+  /* Surfaced in the form's failure state so a message is never lost. The Info
+     block in index.html carries its own copy of this address in the markup —
+     change both. */
+  var CONTACT_EMAIL = "amyinsvg@gmail.com";
 
   /* ---------------------------------------------------------------------
      The overlay's copy of the form.

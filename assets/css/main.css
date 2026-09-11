@@ -110,29 +110,65 @@ img, svg { display: block; max-width: 100%; height: auto; }
 button, input, textarea, select { font: inherit; color: inherit; }
 
 /* ---------------------------------------------------------------------------
-   3. FRAME SHELL
+   3. PAGE SHELL  (SUPERSEDES §3 and §6 of the build spec)
    ---------------------------------------------------------------------------
-   Outer field is --c-frame, content field is --c-surface, inset by
-   --frame-inset. Implemented as a margin on a normal in-flow block rather
-   than a fixed inner scroller: the document keeps native scrolling, anchor
-   links, and scroll restoration, which a fixed overflow pane breaks.
+   The spec described the yellow as an inset frame around a single content
+   field. It is not. Yellow is the page background; the cream areas are
+   SEPARATE STACKED BLOCKS in a centred column, with the page showing through
+   the gaps between them. A stack of cards on a coloured page.
 
-   --frame-inset clamps 0.75rem → 2.25rem so the frame SHRINKS on narrow
-   viewports instead of eating the content field (§10). At 320px the band is
-   12px a side and the field still has 296px.
+       yellow page background
+           BRAND & DIGITAL DESIGNER      Info Contact IG   <- header on yellow
+           +-----------------------------+
+           |  cream block: hero          |  100svh, name bottom-left
+           +-----------------------------+
+                                            <- yellow gap
+           +-----------------------------+
+           |  cream block: project 1     |
+           +-----------------------------+
+
+   Two layers: .page is 50% of the viewport and centred; .block is the cream,
+   inset inside it so the yellow shows down both sides. See tokens.css for
+   where each number comes from.
+
+   CAVEAT, per the correction: Cargo's captured settings are scoped to the
+   COVER PAGE only ("Affects current page only"). Each project section, the
+   Info section and every other page is a separate Cargo page with its own
+   Local Page Settings, which will differ — at minimum 100% Height does not
+   apply to them. The Cover values are applied to every block here as the
+   best available approximation. The non-hero blocks are NOT verified.
    --------------------------------------------------------------------------- */
 
-.frame {
-  background: var(--c-surface);
-  margin: var(--frame-inset);
-  min-height: calc(100vh - (var(--frame-inset) * 2));
-  min-height: calc(100dvh - (var(--frame-inset) * 2));
-  position: relative;
+.page {
+  width: var(--page-width);
+  margin-inline: auto;          /* pure centring — measured 900px vs 904px
+                                   of margin at 3334px wide */
+  display: flex;
+  flex-direction: column;
 }
 
-.field {
-  padding-inline: var(--field-pad);
+/* Each section is its own cream block. */
+.block {
+  background: var(--c-surface);
+  margin-inline: var(--block-inset);
+  padding: var(--block-pad);
+  scroll-margin-top: var(--block-gap);
 }
+
+/* Uniform yellow gap between blocks.
+   Percentage margin-top resolves against the containing block's INLINE size
+   (the column width), which is well defined. A percentage row-gap on a flex
+   column would resolve against the block axis and is indeterminate at auto
+   height, so margins are used deliberately here rather than `gap`.
+
+   .page > * + *  covers header -> main and main -> footer.
+   main > * + *   covers block -> block inside main.
+   Neither doubles up, because no margin is put on main itself twice.         */
+.page > * + *,
+.page main > * + * { margin-top: var(--block-gap); }
+
+/* main carries no padding or background of its own — it only groups blocks. */
+.page main { display: flex; flex-direction: column; }
 
 .skip {
   position: absolute;
@@ -144,7 +180,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
   padding: var(--stack-sm);
   border: 1px solid var(--c-rule);
 }
-.skip:focus { left: var(--field-pad); }
+.skip:focus { left: 1rem; }
 
 /* ---------------------------------------------------------------------------
    4. TYPE STYLES  (spec §4 — all 17 styles from Cargo's Text Styles panel)
@@ -385,23 +421,31 @@ a:hover { text-decoration-thickness: 2px; }
 /* ---------------------------------------------------------------------------
    6. HEADER
    ---------------------------------------------------------------------------
-   §6 says "fixed or sticky, on the frame" — undecided. Sticky is taken here
-   as the reversible option: it participates in flow, needs no body padding
-   compensation, and reverts to static with one line. Background is the
-   surface field so content passes cleanly beneath it.
-   --------------------------------------------------------------------------- */
+   Sits ON THE YELLOW, above the first block — not inside any block. Aligned
+   to the content column: the same inset as the blocks, so its left edge lines
+   up with the cream block's left edge and its right edge with the block's
+   right edge.
+
+   It is static, not sticky. The build spec said "fixed or sticky" and this
+   build previously chose sticky — but in the corrected model the header has
+   no background of its own, so sticking it would drag transparent text across
+   the cream blocks as they scroll under it. Static is the only option that
+   holds up here.
+
+   The `↓` the correction mentions at the column's right edge: the nav's right
+   edge is flush to the block's right edge, which is what that describes. The
+   three nav links from §6 (Info / Contact / IG) are kept — the correction
+   changes the shell only, and Contact is the contact-overlay trigger.        */
 
 .site-header {
-  position: sticky;
-  top: 0;
-  z-index: 10;
+  margin-inline: var(--block-inset);
+  padding-block: var(--stack-sm);
   display: flex;
   flex-wrap: wrap;
   gap: var(--stack-sm);
   align-items: baseline;
   justify-content: space-between;
-  padding-block: var(--stack-sm);
-  background: var(--c-surface);
+  background: transparent;
 }
 
 .site-nav {
@@ -410,21 +454,43 @@ a:hover { text-decoration-thickness: 2px; }
   gap: clamp(1rem, 3vw, 2rem);
 }
 
-/* Anchor targets clear the sticky header. */
-:target,
-[id] { scroll-margin-top: calc(var(--stack-lg) + var(--stack-sm)); }
-
 /* ---------------------------------------------------------------------------
    7. HOME — hero, project blocks, info, footer
    --------------------------------------------------------------------------- */
 
 .hero {
+  /* 100% height with content bottom-aligned — Cargo "100% Height: on,
+     bottom-aligned", plus its page-scoped custom CSS:
+        .page-content { align-items: flex-end; }
+        .page         { min-height: var(--viewport-height); }
+        .page-layout  { align-items: flex-end; }
+     Reproducing the effect, not the selectors.
+
+     svh, not vh: Cargo's --viewport-height existed to dodge the resize when
+     mobile browser chrome shows and hides, and svh is the modern equivalent.
+     vh would make the block jump as the URL bar collapses. */
+  /* DEVIATION FROM THE CORRECTION, stated plainly so it can be reverted:
+     the correction says the hero block itself is 100% height. Taken
+     literally, the header and the gap above it push the block's bottom edge
+     past the fold, and since the name is BOTTOM-aligned it lands off-screen —
+     measured 30px below at 1440, 40px at 768, 61px at 375. That contradicts
+     the correction's own diagram, which shows the header and the whole hero
+     block within one frame.
+
+     So the FIRST SCREEN is 100svh: hero = 100svh - header - gap. The block
+     still fills the viewport, and the name sits bottom-left inside it and is
+     visible on load. To revert to the literal reading, drop the two
+     subtractions below.
+
+     svh, not vh, as directed: Cargo's --viewport-height existed to dodge the
+     resize when mobile browser chrome shows and hides. vh would make the
+     block jump as the URL bar collapses. */
+  min-height: calc(100vh - var(--header-h) - var(--block-gap-abs));   /* no-svh fallback */
+  min-height: calc(100svh - var(--header-h) - var(--block-gap-abs));
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  min-height: calc(100vh - (var(--frame-inset) * 2) - var(--stack-lg) * 2);
-  min-height: calc(100dvh - (var(--frame-inset) * 2) - var(--stack-lg) * 2);
-  padding-block: var(--stack-lg);
+  justify-content: flex-end;    /* bottom, NOT centre */
+  align-items: flex-start;      /* Cargo "Text Align: left" */
 }
 
 /* The hero name is a LINK to #project-1 on the live site. That behaviour is
@@ -445,17 +511,15 @@ a:hover { text-decoration-thickness: 2px; }
   font-style: normal;
 }
 
-/* Project blocks — each a full-viewport section (§6). min-height, never
-   height: content taller than the viewport must still be reachable. */
+/* Project blocks. Each is its own cream block now, so the border-top
+   separator the old single-field model needed is gone — the yellow gap does
+   that job. These are NOT 100% height: the correction is explicit that only
+   the hero is, and that the other sections are separate Cargo pages whose
+   settings were not captured. Treat their proportions as approximate. */
 .project {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   gap: var(--stack-sm);
-  min-height: calc(100vh - (var(--frame-inset) * 2));
-  min-height: calc(100dvh - (var(--frame-inset) * 2));
-  padding-block: var(--stack-lg);
-  border-top: 1px solid var(--c-rule);
 }
 
 .project > * { max-width: var(--measure); }
@@ -463,16 +527,11 @@ a:hover { text-decoration-thickness: 2px; }
 
 .project-media { margin-top: var(--stack-sm); }
 
-.next-cue {
-  margin-top: auto;
-  padding-top: var(--stack-md);
-}
+.next-cue { margin-top: var(--stack-md); }
 
 /* Info */
-.info {
-  padding-block: var(--stack-lg);
-  border-top: 1px solid var(--c-rule);
-}
+/* The <hr class="rule"> inside Info stays — §6 calls for a hairline before
+   the meta block. Only the old section separator border is gone. */
 
 .info-prose {
   max-width: var(--measure);   /* §10 — the live site runs past 90ch */
@@ -490,7 +549,7 @@ a:hover { text-decoration-thickness: 2px; }
 /* Two-column meta block, roughly 45/55 per §6. */
 .meta {
   display: grid;
-  gap: var(--stack-md) var(--field-pad);
+  gap: var(--stack-md) var(--stack-lg);   /* was --field-pad, now retired */
   grid-template-columns: 1fr;
 }
 @media (min-width: 48rem) {
@@ -508,8 +567,6 @@ a:hover { text-decoration-thickness: 2px; }
   gap: var(--stack-sm);
   justify-content: space-between;
   align-items: baseline;
-  padding-block: var(--stack-md);
-  border-top: 1px solid var(--c-rule);
 }
 
 /* ---------------------------------------------------------------------------
@@ -544,7 +601,6 @@ a:hover { text-decoration-thickness: 2px; }
    9. CASE STUDY  (spec §7 — built as a reusable pattern for future studies)
    --------------------------------------------------------------------------- */
 
-.case { padding-block: var(--stack-md) var(--stack-lg); }
 .case-back { display: inline-block; margin-bottom: var(--stack-lg); }
 .case-head { display: grid; gap: var(--stack-sm); max-width: var(--measure); }
 .case-body { display: grid; gap: var(--stack-md); max-width: var(--measure); margin-top: var(--stack-lg); }
@@ -570,7 +626,6 @@ a:hover { text-decoration-thickness: 2px; }
    native POST.
    --------------------------------------------------------------------------- */
 
-.contact-page { padding-block: var(--stack-lg); }
 .contact-intro { max-width: var(--measure); display: grid; gap: var(--stack-sm); }
 
 .form {
@@ -644,9 +699,8 @@ a:hover { text-decoration-thickness: 2px; }
   background: var(--c-surface);
   color: var(--c-ink);
   padding: 0;
-  width: min(38rem, calc(100vw - (var(--frame-inset) * 4)));
-  max-height: calc(100vh - (var(--frame-inset) * 4));
-  max-height: calc(100dvh - (var(--frame-inset) * 4));
+  width: min(38rem, calc(100% - 2rem));
+  max-height: calc(100svh - 2rem);
   max-width: none;
   border-radius: 0;
 }
@@ -691,11 +745,33 @@ a:hover { text-decoration-thickness: 2px; }
 .error-page {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   gap: var(--stack-sm);
-  min-height: calc(100vh - (var(--frame-inset) * 2) - var(--stack-lg) * 2);
-  min-height: calc(100dvh - (var(--frame-inset) * 2) - var(--stack-lg) * 2);
-  padding-block: var(--stack-lg);
+}
+
+/* ---------------------------------------------------------------------------
+   11b. MOBILE TYPE SCALE
+   ---------------------------------------------------------------------------
+   Cargo's Mobile Settings carry "Scale 140%". That is a Cargo rendering
+   mechanic, not a CSS property, and the correction is explicit: treat it as
+   direction that type should read proportionally larger on mobile, and DO NOT
+   multiply every font size by 1.4.
+
+   So this is one root-size bump of 1.15x rather than 17 edited values. Every
+   style keeps its exact relative proportion to the others, the whole scale
+   moves together, and the multiplier is a single number to retune. 1.4x was
+   tried and is far too large once the column goes full width — the hero and
+   Heading 1 already grow on their own vw clamps.
+
+   Deliberately narrower than Cargo's figure, and tuned by eye as directed.
+   --------------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+  html { font-size: 115%; }
+
+  /* Stack the brand mark and the nav. Below ~400px they wrap anyway; forcing
+     it makes the header's height the same across the whole breakpoint, which
+     is what lets --header-h stay exact and the hero fill the first screen. */
+  .site-header { flex-direction: column; align-items: flex-start; }
 }
 
 /* ---------------------------------------------------------------------------

@@ -24,14 +24,8 @@
 
   /* Third ink colour: secondary text, one step back from black.
      Used by Subtitle Italic, Tag/Metadata and Teaser caption.
-
-     STATUS NOTE — unresolved discrepancy, do not silently settle it:
-     spec §3, the §4 "three notes", and the §12 capture checklist all record
-     this as sampled and CONFIRMED at #606060. The build request that
-     accompanied the spec instead describes --c-ink-mute as "a placeholder for
-     a colour that was never captured". The hex is the same either way, so the
-     rendered site is unaffected — but whether this value is confirmed or
-     provisional is still open. Flagged for Amy, not resolved here.          */
+     Confirmed by sampling — not a placeholder. (An earlier build note called
+     this provisional; that note was stale and the spec was right.)          */
   --c-ink-mute:   #606060;  /* secondary text */
 
   /* --- Type families ----------------------------------------------------
@@ -70,13 +64,88 @@
   --t-label:       0.7rem;
 
   /* --- Layout -----------------------------------------------------------
-     --frame-inset clamps so the inset frame shrinks on narrow viewports
-     instead of squeezing the content field to nothing (§10).               */
+     SUPERSEDES §3 of the build spec. The spec described the yellow as an
+     inset frame around one content field. It is not: yellow is the PAGE
+     BACKGROUND, and the cream areas are separate stacked blocks in a centred
+     column with the page showing through the gaps between them. A stack of
+     cards on a coloured page, not one field with sections inside it.
 
-  --frame-inset:  clamp(0.75rem, 2.5vw, 2.25rem);
-  --field-pad:    clamp(1.5rem, 5vw, 5rem);
+     --frame-inset and --field-pad are deliberately gone. They encoded the
+     wrong model; nothing should reference them.
+
+     Two nested layers, from Cargo's own Local Page Settings:
+
+       .page   width 50% of viewport, centred          ("Width 50")
+       .block  cream, inset inside the page            ("Inset 3")
+               -> 4.1% of page width each side leaves the cream at
+                  45.9% of the viewport, which is the measured figure
+                  (45.8 / 45.9 / 45.9 / 46.1 across four screenshots).
+
+     NOTE on the correction's own token sketch: it suggested a single
+     --column-width: 46%. That cannot express the inset — the 50% page and the
+     45.9% cream are two different edges, and the gap between them is what
+     produces the yellow down each side. Hence two values, not one.          */
+
+  --page-width:   50%;     /* of viewport, centred */
+  --block-inset:  4.1%;    /* of page width, each side -> cream at 45.9%vw */
+  --block-pad:    4.1%;    /* of page width — Cargo "Padding 3", which is the
+                              same unit value as Inset 3, so the same
+                              computed figure. Inferred from that equality,
+                              not separately measured. */
+
+  /* Uniform yellow gap between blocks. Expressed against the PAGE width:
+     8.54% of the page == 9.3% of the cream block's own width, which is the
+     measured ratio (142px against a 1530px column, identical in all three
+     multi-block screenshots). The correction says "9.3% of column width";
+     the arithmetic only lands on 142px if "column" means the cream, so that
+     is the reading used here.                                              */
+  --block-gap:    8.54%;
+
+  /* Absolute twin of --block-gap, for use inside height calc().
+     --block-gap is a percentage of the page's INLINE size; a percentage
+     inside a height calculation would resolve against the block axis and be
+     wrong. 8.54% of a 50%-wide page == 4.27% of the viewport.              */
+  --block-gap-abs: 4.27vw;
+
+  /* Header height, derived rather than guessed. The header is one line of the
+     tallest style it contains (Nav Link, 1.3rem x 1.3 line-height) plus its
+     vertical padding. Deterministic from the tokens, so the hero can subtract
+     it without JS. Verified against the rendered height at 1440px (67px).   */
+  --header-h: calc(var(--stack-sm) * 2 + 1.3rem * 1.3);
+
   --measure:      68ch;
   --stack-sm:     1.25rem;
   --stack-md:     2.5rem;
   --stack-lg:     4rem;
+}
+
+/* ---------------------------------------------------------------------------
+   Mobile — from Cargo's Mobile Settings panel, not from breakpoint guesswork.
+   "Maximize Page Width" is ON, so the 50% column does NOT hold on small
+   screens: the page goes full width with reduced padding. A literal 50% at
+   375px would leave a ~170px column, which is unusable.
+
+   A small inset is kept rather than dropped to zero, so the yellow still
+   shows down both sides and in the gaps. Losing it would erase the model.
+
+   "Padding Offset 30%" is ambiguous between "reduce BY 30%" and "reduce TO
+   30%". Reducing TO 30% gives ~4.6px gutters at 375px, which fails the
+   readability floor, so this is the "reduce by 30%" reading: 4.1% * 0.7.
+   Tuned visually, as the correction directs for the mobile mechanics.
+   --------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  :root {
+    --page-width:  100%;   /* Maximize Page Width */
+    --block-inset: 2%;
+    --block-pad:   2.9%;
+
+    /* Page is full width here, so the gap is 8.54% of the viewport. */
+    --block-gap-abs: 8.54vw;
+
+    /* The header is forced to two rows on mobile (see .site-header), which
+       makes its height deterministic across the whole breakpoint instead of
+       depending on where the nav happens to wrap: padding + brand mark line
+       + row gap + nav line. Verified against the rendered 119px at 375px.  */
+    --header-h: calc(var(--stack-sm) * 3 + 0.8rem * 1.3 + 1.3rem * 1.3);
+  }
 }

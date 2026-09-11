@@ -43,7 +43,6 @@ Two things behave differently locally, both on purpose:
 ├── index.html                        home — hero, 3 projects, info
 ├── 404.html
 ├── .nojekyll
-├── CAPTURE-TODO.md                   content the spec promised but omitted
 ├── contact/
 │   ├── index.html                    the real contact page
 │   └── thanks/index.html             no-JS POST redirect target
@@ -88,6 +87,48 @@ Self-hosted faces are Latin-subset `woff2`, only the weights the design uses,
 all `font-display: swap`. The Inter Tight roman is Google's variable Latin
 instance declared over `font-weight: 500 600`, so one file covers Medium and
 SemiBold at the same payload two static instances would have cost.
+
+## Page shell
+
+Worth understanding before changing any layout, because the obvious reading is
+the wrong one.
+
+**Yellow is the page background, not a border.** The cream areas are separate
+stacked blocks in a centred column, with the page showing through the gaps
+between them — a stack of cards on a coloured page, not one field with
+sections inside it. An earlier version of the build spec described it as an
+inset frame; that was wrong and `--frame-inset` is gone.
+
+Two nested layers, both from Cargo's own Local Page Settings:
+
+| Layer | Value | Source |
+|---|---|---|
+| `.page` | 50% of viewport, centred | Cargo "Width 50" |
+| `.block` | cream, inset 4.1% of the page each side → 45.9% of viewport | Cargo "Inset 3"; measured 45.8 / 45.9 / 45.9 / 46.1 |
+| gap | 8.54% of page width = 9.3% of the cream's own width | measured 142px against a 1530px column |
+
+The header sits on the yellow above the first block, aligned to the column,
+and is static rather than sticky — it has no background of its own, so
+sticking it would drag transparent text over the cream as it scrolls.
+
+The hero fills the first screen with the name bottom-left. Note that the
+**first screen** is `100svh` — the hero is `100svh` minus the header and gap —
+rather than the hero block alone being `100svh`, which would push the
+bottom-aligned name below the fold. `svh` not `vh`, so the block doesn't jump
+when mobile browser chrome shows and hides.
+
+On mobile the 50% column does not hold: Cargo's "Maximize Page Width" is on,
+so the page goes full width with reduced padding and a small inset retained so
+the yellow still reads. Cargo's "Scale 140%" is a rendering mechanic, not CSS;
+it is honoured as a single 1.15x root-size bump so all 17 styles keep their
+proportions, not by multiplying every size by 1.4.
+
+**One caveat, deliberately unresolved:** Cargo's captured settings are scoped
+to the Cover page only. Every other section is a separate Cargo page with its
+own settings, which will differ — at minimum 100% Height does not apply to
+them. The Cover values are applied to every block as the best available
+approximation, so **the non-hero blocks are not verified.** Screenshotting
+each page's two settings panels before the subscription lapses would settle it.
 
 ## Tokens
 
@@ -140,12 +181,17 @@ The failure state deliberately keeps every field intact and surfaces the email
 address as a fallback. A form that silently swallows a message is worse than
 no form.
 
-## Before this goes live
+## Content status
 
-Read `CAPTURE-TODO.md`. The spec described several strings as transcribed
-verbatim that it does not actually contain, and the email address is missing.
-Those gaps are marked in the source rather than filled with invented copy:
+All copy is transcribed verbatim from the live Cargo site. The one exception is
+the alt text on the three homepage project blocks: the source has no images
+there, so nothing existed to transcribe and those three strings were written
+rather than captured. They are marked in the source:
 
 ```bash
-grep -rn "TODO(capture)" .
+grep -rn 'data-alt-source="written"' .
 ```
+
+Replace them when real images land; per spec §5 the string then moves to the
+`alt` attribute. Two strings are knowingly stale and left as found, flagged for
+Amy rather than corrected here: "Booking Q3 2026" and "Based in California".

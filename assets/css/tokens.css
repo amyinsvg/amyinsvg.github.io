@@ -57,9 +57,10 @@
      .t-teaser is currently UNUSED — kept because §4 says to build all 17
      styles, and the next case study will likely want it. */
   --t-teaser:      1.35rem;
-  /* 18.8px. The header ↓ carries .t-nav, so it moves with the nav links
-     rather than being sized separately — they are one group. */
-  --t-nav:         1.175rem;
+  /* 17.8px. The header ↓ carries .t-nav, so it moves with the nav links
+     rather than being sized separately — they are one group.
+     Still smaller than --t-brandmark (19.8px); that gap is deliberate. */
+  --t-nav:         1.1125rem;
   --t-caption:     1.1rem;
   --t-subtitle:    1.1rem;
   --t-body-lg:     1.05rem;
@@ -243,8 +244,10 @@
   :root {
     /* brand row + nav row. Two explicit terms, not a doubled constant, so it
        stays legible as what it is. */
-    /* brand row (1.2375rem) + nav row (1.175rem). The two terms differ now
-       that the sizes have diverged — do not collapse them back. */
-    --header-h: calc(var(--stack-sm) * 3 + 1.2375rem * 1.3 + 1.175rem * 1.3);
+    /* brand row (1.2375rem) + nav row (1.1125rem). The two terms differ —
+       do not collapse them back. The one-row formula above keys off the
+       BRAND MARK because it is the taller of the two, so it is unaffected by
+       nav-size changes; this one is not. */
+    --header-h: calc(var(--stack-sm) * 3 + 1.2375rem * 1.3 + 1.1125rem * 1.3);
   }
 }

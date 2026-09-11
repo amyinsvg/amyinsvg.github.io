@@ -429,6 +429,11 @@ a:hover { text-decoration-thickness: 2px; }
    With no persistent underline it needs its own hover and focus affordances;
    the shared :focus-visible ring supplies the latter. */
 .cta-case {
+  /* Sized to --t-tag so it matches the discipline labels at the top right of
+     the same block, rather than inheriting .t-cta's 1.05rem. Deliberately
+     NOT done by changing --t-cta: that token is shared with ↓ Next, Let's
+     talk →, ↑ Top and the back links, none of which change. */
+  font-size: var(--t-tag);
   text-transform: uppercase;
   text-decoration: none;
 }

@@ -97,9 +97,14 @@ body {
   font-family: var(--font-ui);
   font-size: var(--t-body);
   line-height: 1.65;
-  /* Bodycopy is Inter Tight ITALIC 400 on the live site (§4). That reads as a
-     mistake and it is not — it is the captured design. Left as found. */
-  font-style: italic;
+  /* Bodycopy is ROMAN. §4's table listed it as "Inter Tight Italic" and told
+     this build to apply font-style: italic — that was wrong. The Cargo panel
+     was reporting the loaded FONT FILE, not the rendered style, and body text
+     on the source renders roman. Do not reintroduce the italic from §4.
+     This is the base style, so the italic propagated site-wide; setting it
+     normal here is what un-italicises the buttons, list items and links that
+     inherit from it. */
+  font-style: normal;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
 }
@@ -194,8 +199,13 @@ button, input, textarea, select { font: inherit; color: inherit; }
 /* ---------------------------------------------------------------------------
    4. TYPE STYLES  (spec §4 — all 17 styles from Cargo's Text Styles panel)
    ---------------------------------------------------------------------------
-   Tracking values in the panel are em. Where a style is named "Italic" the
-   panel reports the roman family name, so font-style: italic is applied here.
+   Tracking values in the panel are em.
+
+   A style being NAMED "Italic" in §4 does not mean it renders italic. The
+   panel reported the loaded font file, not the rendered style — which is how
+   Bodycopy came to be wrongly italicised site-wide. Bodycopy is corrected to
+   roman. Body Large carries the same §4 annotation and is still italic; it
+   has not been re-checked against the source (see the note at .t-body-lg).
 
    Info Label and Accent Marker are identical in every property, so they are
    one class (.t-label), per §4.
@@ -323,7 +333,15 @@ button, input, textarea, select { font: inherit; color: inherit; }
   color: var(--c-ink-mute);
 }
 
-/* Body Large — Inter Tight Italic, 1.05rem/1.6, 0, 400, ink. */
+/* Body Large — Inter Tight Italic, 1.05rem/1.6, 0, 400, ink.
+
+   STILL ITALIC, and deliberately not changed in the Bodycopy pass. §4 gives
+   it the same "Inter Tight Italic" annotation that proved wrong for
+   Bodycopy, so it is very likely wrong here too — but this is the case
+   study's body style, and the case study pages have not been audited against
+   the source. It also surfaces in the contact overlay's sent/failed messages
+   and on 404 and /contact/thanks/, so those render italic today. Check
+   against the source before changing. */
 .t-body-lg {
   font-family: var(--font-ui);
   font-size: var(--t-body-lg);
@@ -367,14 +385,17 @@ button, input, textarea, select { font: inherit; color: inherit; }
   color: var(--c-ink);
 }
 
-/* Bodycopy — Inter Tight Italic, 0.875rem/1.65, 0, 400, ink. */
+/* Bodycopy — Inter Tight ROMAN, 0.875rem/1.65, 0, 400, ink.
+   §4 records "Inter Tight Italic" and it is WRONG: the panel reported the
+   loaded font file, not the rendered style. The source sets body text roman.
+   Corrected here and at the `body` base above — do not put it back. */
 .t-body {
   font-family: var(--font-ui);
   font-size: var(--t-body);
   line-height: 1.65;
   letter-spacing: 0;
   font-weight: 400;
-  font-style: italic;
+  font-style: normal;
   color: var(--c-ink);
 }
 
@@ -745,6 +766,10 @@ a:hover { text-decoration-thickness: 2px; }
   color: color-mix(in srgb, var(--c-ink) 55%, transparent);
   text-align: center;
   max-width: 40ch;
+  /* Deliberately italic, so the placeholder reads as temporary. This used to
+     come for free by inheriting the old italic Bodycopy base; now that the
+     base is roman it has to be stated, or these silently go upright. */
+  font-style: italic;
 }
 
 /* ---------------------------------------------------------------------------
@@ -798,7 +823,9 @@ a:hover { text-decoration-thickness: 2px; }
   padding: 0.7rem 0.8rem;
   font-family: var(--font-ui);
   font-size: var(--t-body-lg);
-  font-style: italic;
+  /* Roman, following Bodycopy. These were italic only to match the old
+     italic body style; that rationale is gone. */
+  font-style: normal;
   border-radius: 0;
   -webkit-appearance: none;
 }

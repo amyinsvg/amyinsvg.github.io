@@ -696,11 +696,13 @@ a:hover { text-decoration-thickness: 2px; }
 .meta-col > p + p { margin-top: var(--stack-pair); }
 .meta-col > p + .meta-group { margin-top: var(--stack-group); }
 
-/* The CTA is set apart from everything above it, and its label sits further
-   from its value than an ordinary pair. Declared after the sibling rule above
-   so it wins on source order at equal specificity. */
+/* The CTA group is set apart from everything ABOVE it — that break is
+   correct and stays. But its label and value are an ordinary pair,
+   structurally identical to CURRENTLY and its line, so they use --stack-pair
+   like every other pair in this block. No special case: the dt rule above
+   already supplies it, and the previous --stack-md override is gone.
+   Declared after the sibling rule so it wins on source order. */
 .meta-group.meta-cta { margin-top: var(--stack-break); }
-.meta-group.meta-cta dt { margin-bottom: var(--stack-md); }
 
 .meta-list { display: grid; gap: 0.15rem; }
 

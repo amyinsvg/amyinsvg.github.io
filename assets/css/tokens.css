@@ -57,22 +57,28 @@
      .t-teaser is currently UNUSED — kept because §4 says to build all 17
      styles, and the next case study will likely want it. */
   --t-teaser:      1.35rem;
-  --t-nav:         1.3rem;
+  /* 18.8px. The header ↓ carries .t-nav, so it moves with the nav links
+     rather than being sized separately — they are one group. */
+  --t-nav:         1.175rem;
   --t-caption:     1.1rem;
   --t-subtitle:    1.1rem;
   --t-body-lg:     1.05rem;
   --t-cta:         1.05rem;
-  --t-tag:         0.95rem;
+  --t-tag:         0.825rem;   /* was 0.95 — discipline labels, all 3 blocks */
   --t-currently:   0.94rem;
   --t-body:        0.875rem;
   /* DELIBERATE DIVERGENCE FROM THE SOURCE — do not "correct" this.
      §4 of the spec records Brand Mark at 0.8rem, and the Cargo site renders
-     it that way. It is set to 1.3rem here to match Nav Link, at Amy's
-     request. SIZE ONLY: the weight stays 600 and the tracking stays 0.04em,
-     which are what still distinguish it from the nav links beside it.
-     Same class of intentional change as the uppercase Info labels.
-     NOTE: the mobile --header-h below derives from this value. */
-  --t-brandmark:   1.3rem;
+     it that way. It is 1.2375rem here at Amy's request. SIZE ONLY: the weight
+     stays 600 and the tracking stays 0.04em, which are what distinguish it
+     from the nav links beside it.
+
+     It was briefly matched exactly to Nav Link (both 1.3rem). That match is
+     now DELIBERATELY BROKEN — the brand mark sits 1px larger than the nav.
+     Do not "correct" the two back into agreement.
+
+     NOTE: both --header-h formulas below derive from this value. */
+  --t-brandmark:   1.2375rem;   /* 19.8px */
   --t-label:       0.7rem;
 
   /* --- Layout -----------------------------------------------------------
@@ -134,23 +140,30 @@
      tallest style it contains (Nav Link, 1.3rem x 1.3 line-height) plus its
      vertical padding. Deterministic from the tokens, so the hero can subtract
      it without JS. Verified against the rendered height at 1440px (67px).   */
-  --header-h: calc(var(--stack-sm) * 2 + 1.3rem * 1.3);
+  /* One row: padding + the TALLEST line in the header. That is now the brand
+     mark (1.2375rem), not the nav (1.175rem) — they are no longer equal, and
+     the brand mark is the larger of the two. */
+  --header-h: calc(var(--stack-sm) * 2 + 1.2375rem * 1.3);
 
-  /* Project block rhythm — all four measured from the Cargo rendering by the
-     type hierarchy audit. The gap ABOVE the image is roughly double the one
-     below, which ties the image to the link under it; the build previously
-     had that inverted.
+  /* Project block rhythm. Every gap reduced by 2.5x from the previous set,
+     which rendered 48 / 55 / 27 / 60 and read uniformly too airy.
 
-     CORRECTION ON RECORD: an earlier round set these to 20px/12px by treating
-     the quoted ~55/~27 as being on a different measurement basis and applying
-     a relative "halve it" reading instead. The audit measures 55/27
-     independently, so the absolute figures were right and that inference was
-     wrong — the gaps ended up about 2.7x too tight. These are the measured
-     values. */
-  --project-title-gap: 3rem;      /* title row -> description, ~48px */
-  --media-above:       3.45rem;   /* description -> image,     ~55px */
-  --media-below:       1.7rem;    /* image -> View Case Study, ~27px */
-  --project-next-gap:  3.75rem;   /* View Case Study -> ↓ Next, ~60px */
+     MEASUREMENT BASIS — worth knowing before touching these again. Amy's
+     readings of this page run consistently ~2.5x the rendered CSS pixels
+     (her reading of the previous build was 119 / 121 / 73 / 147 where it
+     measured 48 / 55 / 27 / 60). So the figures quoted in briefs are in that
+     inflated basis, and the RATIOS are the reliable part, not the absolutes.
+     A uniform 0.4x was checked against all four and lands every ratio exactly
+     on the source's 48 : 55 : 27 : 60, so one multiplier was enough here even
+     though the brief warned it might not be.
+
+     The asymmetry is deliberate and must survive any future change: the gap
+     ABOVE the image stays ~2x the one below (2.04 here), which ties the image
+     to its link rather than letting the link float between image and Next. */
+  --project-title-gap: 1.2rem;     /* title row -> description, 19.2px */
+  --media-above:       1.375rem;   /* description -> image,     22px   */
+  --media-below:       0.675rem;   /* image -> View Case Study,  10.8px */
+  --project-next-gap:  1.5rem;     /* View Case Study -> ↓ Next, 24px  */
 
   --measure:      68ch;
   --stack-sm:     1.25rem;
@@ -230,6 +243,8 @@
   :root {
     /* brand row + nav row. Two explicit terms, not a doubled constant, so it
        stays legible as what it is. */
-    --header-h: calc(var(--stack-sm) * 3 + 1.3rem * 1.3 + 1.3rem * 1.3);
+    /* brand row (1.2375rem) + nav row (1.175rem). The two terms differ now
+       that the sizes have diverged — do not collapse them back. */
+    --header-h: calc(var(--stack-sm) * 3 + 1.2375rem * 1.3 + 1.175rem * 1.3);
   }
 }

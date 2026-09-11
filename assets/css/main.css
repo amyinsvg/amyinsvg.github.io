@@ -272,19 +272,21 @@ button, input, textarea, select { font: inherit; color: inherit; }
   color: var(--c-ink);
 }
 
-/* Teaser caption — Instrument Serif, 1.35rem/1.65, 0, 400, grey.
+/* Teaser caption — Instrument Serif, 0.94rem/1.65, 0, 400, grey.
 
-   OPEN QUESTION — do not resolve without Amy. This class is applied to the
-   homepage project descriptions, on the strength of §4's style NAME alone.
-   The Cargo source sets those descriptions in a SANS at roughly body size,
-   which looks like Inter Tight — so "Teaser caption" most likely belongs to
-   some other element and this is a mis-mapping, one instance of the
-   unverified style-to-element mapping flagged at the top of section 4.
+   TWO DELIBERATE DIVERGENCES from §4, both settled — do not "correct" either.
 
-   Left as-is deliberately, pending Amy's call. If she wants it matched to the
-   source it becomes Inter Tight at body size, and Instrument Serif then goes
-   UNUSED on the homepage (it would still be carrying the case study dek and
-   pull quote, so the face stays loaded either way). */
+   1. SIZE: §4 records 1.35rem. Dropped to 0.94rem to match the Currently
+      line, since at 1.35 the project descriptions sat too high in the
+      hierarchy. Both are Instrument Serif, so size was the only difference.
+
+   2. FAMILY: the Cargo source sets the project descriptions in a SANS at
+      roughly body size, not Instrument Serif. This was previously logged
+      here as an open question — whether §4's "Teaser caption" style was
+      mis-mapped to this element on the strength of its name alone. It has
+      been decided: the descriptions STAY Instrument Serif. That is a chosen
+      divergence from the source, not an unresolved mapping error, and it is
+      not to be revisited. */
 .t-teaser {
   font-family: var(--font-serif);
   font-size: var(--t-teaser);
@@ -437,7 +439,15 @@ a:hover { text-decoration-thickness: 2px; }
   text-transform: uppercase;
   text-decoration: none;
 }
-.cta-case:hover { color: var(--c-ink); }
+/* Hover and focus gain an underline and STAY plum — supersedes the earlier
+   hover-to-ink. The colour must not change; the underline is the whole
+   affordance. :focus-visible gets it too, alongside the shared focus ring, so
+   keyboard and pointer read the same. */
+.cta-case:hover,
+.cta-case:focus-visible {
+  color: var(--c-link);
+  text-decoration: underline;
+}
 
 /* ↓ Next — Inter Tight in ink, not the mono plum treatment, and no underline.
    The 0.08em tracking that comes with .t-cta is dropped too: it is a mono/caps
@@ -613,8 +623,13 @@ a:hover { text-decoration-thickness: 2px; }
 .project {
   display: flex;
   flex-direction: column;
-  gap: var(--stack-sm);
 }
+
+/* Default rhythm between project children. Expressed as margins rather than
+   a flex `gap` on purpose: gap applies uniformly to every child, so the image
+   could not be spaced differently above and below without fighting it with
+   negative margins. Margins let the two media rules below simply override. */
+.project > * + * { margin-top: var(--stack-sm); }
 
 .project > * { max-width: var(--measure); }
 .project .ph { max-width: none; }
@@ -637,7 +652,14 @@ a:hover { text-decoration-thickness: 2px; }
   max-width: none;
 }
 
-.project-media { margin-top: var(--stack-sm); }
+/* Asymmetric space around the image, larger ABOVE, which ties the image to
+   the link beneath it. Both values are tokens — see tokens.css for where the
+   numbers came from and why the absolute figures in the brief were not used
+   literally. --media-below lands on the element AFTER the image, so .ph's own
+   bottom margin from §5 is zeroed here to keep this the single source. */
+.project > .project-media { margin-top: var(--media-above); }
+.project > .project-media + * { margin-top: var(--media-below); }
+.project .ph { margin-bottom: 0; }
 
 .next-cue { margin-top: var(--stack-md); }
 

@@ -51,7 +51,11 @@
   --t-h2:          2rem;
   --t-pullquote:   1.625rem;
   --t-project:     1.375rem;
-  --t-teaser:      1.35rem;
+  /* DELIBERATE DIVERGENCE — do not "correct" this. §4 records Teaser caption
+     at 1.35rem. Dropped to 0.94rem to match --t-currently, because at 1.35
+     the project descriptions sat too high in the hierarchy. The two are now
+     the same size and both Instrument Serif. */
+  --t-teaser:      0.94rem;
   --t-nav:         1.3rem;
   --t-caption:     1.1rem;
   --t-subtitle:    1.1rem;
@@ -130,6 +134,20 @@
      vertical padding. Deterministic from the tokens, so the hero can subtract
      it without JS. Verified against the rendered height at 1440px (67px).   */
   --header-h: calc(var(--stack-sm) * 2 + 1.3rem * 1.3);
+
+  /* Space around the project image, ABOVE and BELOW separately — the source
+     is asymmetric and the direction matters: the larger gap sits ABOVE, which
+     ties the image to the link beneath it. The build previously had this the
+     wrong way round (40px above, 60px below, measured at 1440).
+
+     Set from the RELATIVE instruction — top to about half, bottom to about a
+     fifth — rather than the absolute figures quoted alongside it (~55 / ~27).
+     Those were measured on a different basis: this build renders 40 / 60 box
+     edge to box edge, so a literal 55px would have GROWN the top gap instead
+     of tightening it. Ratio here is ~1.7:1, close to the ~2:1 the quoted
+     figures imply. Tune these two numbers if the live comparison disagrees. */
+  --media-above:  1.25rem;   /* was an effective 2.5rem  */
+  --media-below:  0.75rem;   /* was an effective 3.75rem */
 
   --measure:      68ch;
   --stack-sm:     1.25rem;

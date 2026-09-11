@@ -457,6 +457,40 @@ a:hover { text-decoration-thickness: 2px; }
   gap: clamp(1rem, 3vw, 2rem);
 }
 
+/* Nav + scroll cue, grouped so they sit together at the right with the arrow
+   flush to the column's right edge. Stays one row when the header stacks on
+   mobile — see the note in index.html. */
+.header-right {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: clamp(1rem, 3vw, 2rem);
+}
+
+/* The ↓ scroll trigger. Undecorated so it reads as a control rather than a
+   nav item, shifting to the accent colour on hover and focus; the shared
+   :focus-visible ring applies on top.
+
+   The hit area grows INWARD: padding on the start side only, none on the end.
+   That keeps the glyph flush with the column's right edge while the box stays
+   inside the column, so the focus ring doesn't hang off the edge. (Padding on
+   both sides plus a negative end margin also keeps the glyph flush, but the
+   box then overhangs by the padding and takes the focus ring with it.)
+   ~13px glyph + 16px padding = ~29px wide against a line box already ~27px
+   tall, clearing the 24px minimum.
+
+   Vertical padding is deliberately avoided: it would grow the header and
+   invalidate --header-h, which the hero's first-screen height is calculated
+   from. */
+.header-cue {
+  display: inline-block;
+  text-decoration: none;
+  color: var(--c-ink);
+  padding-inline: 1rem 0;
+}
+.header-cue:hover,
+.header-cue:focus-visible { color: var(--c-link); }
+
 /* ---------------------------------------------------------------------------
    7. HOME — hero, project blocks, info, footer
    --------------------------------------------------------------------------- */
@@ -496,36 +530,9 @@ a:hover { text-decoration-thickness: 2px; }
   align-items: flex-start;      /* Cargo "Text Align: left" */
 }
 
-/* The hero name is a LINK to #project-1 on the live site. That behaviour is
-   preserved, but a clickable name has no natural affordance — so it gets an
-   underline on hover/focus, a visible focus ring, and the ↓ cue beneath. */
-.hero-name {
-  display: inline-block;
-  text-decoration: none;
-  color: var(--c-ink);
-  max-width: max-content;
-}
-.hero-name:hover,
-.hero-name:focus-visible { text-decoration: underline; text-decoration-thickness: 2px; }
-
-/* The scroll cue is a link (see index.html). Undecorated by default so it
-   still reads as a cue rather than body copy, with colour shifting to ink on
-   hover and focus; the shared :focus-visible ring applies on top. */
-.scroll-cue {
-  margin-top: var(--stack-md);
-  color: var(--c-ink-mute);
-  font-style: normal;
-  text-decoration: none;
-  align-self: flex-start;
-  /* The glyph is only ~11px wide, which is far too small a tap target now
-     that it is a control. Padding gives it a ~33px hit area; the matching
-     negative inline-start margin keeps the arrow visually flush with the
-     text above it, so the hit area grows but nothing moves. */
-  padding: 0.6rem 0.7rem;
-  margin-inline-start: -0.7rem;
-}
-.scroll-cue:hover,
-.scroll-cue:focus-visible { color: var(--c-ink); }
+/* The hero name is plain text — not a link, no underline. The underline
+   struck through the descenders, and the source site has none. The scroll
+   control it used to stand in for now lives in the header (.header-cue). */
 
 /* Project blocks. Each is its own cream block now, so the border-top
    separator the old single-field model needed is gone — the yellow gap does
@@ -788,6 +795,14 @@ a:hover { text-decoration-thickness: 2px; }
      it makes the header's height the same across the whole breakpoint, which
      is what lets --header-h stay exact and the hero fill the first screen. */
   .site-header { flex-direction: column; align-items: flex-start; }
+
+  /* With the header stacked, the nav/cue row has to span the full column so
+     the ↓ still lands on the column's right edge rather than trailing after
+     "IG". Still one row, so --header-h is unaffected. */
+  .header-right {
+    width: 100%;
+    justify-content: space-between;
+  }
 }
 
 /* ---------------------------------------------------------------------------

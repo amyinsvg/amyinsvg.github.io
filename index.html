@@ -57,30 +57,39 @@
 
   <header class="site-header">
     <p class="t-brandmark">BRAND &amp; DIGITAL DESIGNER</p>
-    <nav class="site-nav" aria-label="Primary">
-      <a class="t-nav" href="#info">Info</a>
-      <!-- /contact/ is a real page. contact.js upgrades this to an overlay
-           when JS is available; middle-click and JS-off both still navigate. -->
-      <a class="t-nav" href="contact/" data-contact-trigger>Contact</a>
-      <a class="t-nav" href="https://www.instagram.com/amyinsvg" rel="me noopener" target="_blank">IG</a>
-    </nav>
+    <!-- The nav and the ↓ are grouped so they sit together at the right, with
+         the arrow flush to the column's right edge, which is where the source
+         has it. The wrapper also keeps this to ONE row when the header stacks
+         on mobile — three rows would break --header-h and with it the hero's
+         first-screen height. -->
+    <div class="header-right">
+      <nav class="site-nav" aria-label="Primary">
+        <a class="t-nav" href="#info">Info</a>
+        <!-- /contact/ is a real page. contact.js upgrades this to an overlay
+             when JS is available; middle-click and JS-off both still navigate. -->
+        <a class="t-nav" href="contact/" data-contact-trigger>Contact</a>
+        <a class="t-nav" href="https://www.instagram.com/amyinsvg" rel="me noopener" target="_blank">IG</a>
+      </nav>
+      <!-- The scroll trigger. Outside <nav> because it targets a section of
+           this page rather than being site navigation. aria-label because "↓"
+           is not an accessible name on its own. -->
+      <a class="header-cue t-nav" href="#project-1" aria-label="Skip to work">↓</a>
+    </div>
   </header>
 
   <main id="main">
 
     <!-- ================= HERO ================= -->
     <section class="block hero" id="top" aria-label="Introduction">
-      <!-- The name is a link to the first project on the live site (§6) —
-           behaviour preserved, with a focus ring and hover underline added
-           since a clickable name has no natural affordance.
-
-           The ↓ beneath it is ALSO a link to the same place. §6 specified it
-           as a decorative cue (it was aria-hidden), but an arrow under a hero
-           reads as clickable, so it now behaves the way it looks. It carries
-           an aria-label because "↓" is not an accessible name on its own, and
-           it is no longer aria-hidden — a focusable element must never be. -->
-      <h1 class="t-hero"><a class="hero-name" href="#project-1">Amy<br>Wong</a></h1>
-      <a class="scroll-cue t-tag" href="#project-1" aria-label="Skip down to the work">↓</a>
+      <!-- Plain text, deliberately NOT a link, and with no underline: the
+           underline struck through the descenders and the source site has
+           none. The original spec had the name wrapped in a link to
+           #project-1 and a ↓ cue beneath it; both were spec errors and are
+           gone. The scroll control now lives in the header where the source
+           has it, which also settles the old "a clickable name has no natural
+           affordance" problem — it is a real control now, not a heading
+           pretending to be one. The h1 stays here for document structure. -->
+      <h1 class="t-hero">Amy<br>Wong</h1>
     </section>
 
     <!-- ================= PROJECTS =================
@@ -143,11 +152,14 @@
     <section class="block info" id="info" aria-labelledby="info-title">
       <h2 class="t-h1" id="info-title">Amy Wong</h2>
 
-      <!-- The five Info paragraphs, transcribed verbatim from the live site.
-           "based in California" in the first paragraph is knowingly stale and
-           is left as found — flagged for Amy, not ours to correct. -->
+      <!-- The five Info paragraphs, transcribed from the live site, with one
+           DELIBERATE divergence: the source says "based in California" in the
+           first paragraph and in the Studio line below. Amy has relocated, so
+           both read Texas. This is an intentional update, not a transcription
+           slip — do not "restore" it from the Cargo site. copy-fixes.md has
+           been updated to match, so re-applying it won't reintroduce it. -->
       <div class="info-prose">
-        <p class="t-body">I'm a Chinese-American designer based in California, working with small businesses &amp; independent creators. My work lives where identity meets the ongoing: like logos and websites, but also the market signage, prints, and packaging that keep a brand alive after launch.</p>
+        <p class="t-body">I'm a Chinese-American designer based in Texas, working with small businesses &amp; independent creators. My work lives where identity meets the ongoing: like logos and websites, but also the market signage, prints, and packaging that keep a brand alive after launch.</p>
         <p class="t-body">I came to design from biotech with degrees in Biochemistry (B.Sc. and M.S.). It sounds like a non sequitur until you notice that both are about observation, pattern-finding, and making complicated things feel simple.</p>
         <p class="t-body">Outside of client work, I run Types &amp; Tomes, a small-batch craft brand built around Chinese knotting, books, and mechanical keyboards. It keeps me making things with my hands in a career that's mostly pixels.</p>
         <p class="t-body">I'm currently taking on brand and website work for small businesses and independent creators I'm excited about.</p>
@@ -166,6 +178,9 @@
           </p>
           <p class="t-body">IG: <a href="https://www.instagram.com/amyinsvg" rel="me noopener" target="_blank">@amyinsvg</a></p>
 
+          <!-- NOTE: these labels are uppercase here but sentence-case italic
+               on the source site. That is a deliberate call, not a
+               transcription error. Leave them; do not "correct" them. -->
           <dl class="meta-group">
             <dt class="t-label">CURRENTLY</dt>
             <!-- Transcribed as-is. "Booking Q3 2026" is known-stale and is

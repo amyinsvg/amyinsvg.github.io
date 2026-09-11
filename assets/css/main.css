@@ -374,9 +374,24 @@ button, input, textarea, select { font: inherit; color: inherit; }
   color: var(--c-ink-mute);
 }
 
-/* Currently Line — Instrument Serif, 0.94rem/1.4, 0, 400, ink. */
+/* Currently Line — Inter Tight, 0.94rem/1.4, 0, 400, ink.
+
+   FAMILY CHANGED from Instrument Serif, which is what §4 records. Size is
+   unchanged at 0.94rem.
+
+   This was the last place Instrument Serif appeared on the homepage — the
+   project descriptions moved to Bodycopy in the type hierarchy audit. The
+   face is NOT removed from the @font-face block: it still sets the case
+   study dek and pull quote, so it stays loaded and the payload is unchanged.
+   Do not strip it.
+
+   SIZE NOTE: this is no longer the same size as the project descriptions.
+   They were matched at 0.94rem for one round, then the audit moved the
+   descriptions to Bodycopy (0.875rem) and this stayed at 0.94rem. Both are
+   Inter Tight now, so the 14px / 15.04px difference is visible as a slight
+   mismatch rather than a family distinction. Left as instructed. */
 .t-currently {
-  font-family: var(--font-serif);
+  font-family: var(--font-ui);
   font-size: var(--t-currently);
   line-height: 1.4;
   letter-spacing: 0;

@@ -114,13 +114,15 @@
         <h2 class="t-project" id="project-1-title">Types &amp; Tomes</h2>
         <p class="t-tag">BRAND, WEB, E-COMMERCE</p>
       </div>
-      <!-- SETTLED, deliberate divergence — not an open question any more, and
-           not to be revisited. The Cargo source sets these descriptions in a
-           sans at roughly body size; they stay Instrument Serif here by
-           choice. The size was brought down to 0.94rem to match the Currently
-           line, which is the same face. Full reasoning at .t-teaser in
-           main.css. All three project descriptions share this. -->
-      <p class="t-teaser">A small-batch craft brand — brand identity, website, and shop for a business built on handmade goods and Chinese knotting.</p>
+      <!-- Bodycopy (Inter Tight 0.875), per the type hierarchy audit, which
+           supersedes §4's mapping AND the earlier decision to keep a serif
+           here. §4 assigned "Teaser caption" (Instrument Serif) to this
+           element from the style NAME; the Cargo source actually renders a
+           sans at body size, and that mis-mapping was the main reason the
+           hierarchy read wrong. Instrument Serif is now unused on this page —
+           it still carries the case study dek and pull quote, so no payload
+           changes. -->
+      <p class="t-body">A small-batch craft brand — brand identity, website, and shop for a business built on handmade goods and Chinese knotting.</p>
       <div class="project-media">
         <!-- data-alt-source="written" — the live site has no images in the
              homepage project blocks, so there was no alt text to transcribe.
@@ -141,7 +143,7 @@
         <h2 class="t-project" id="project-2-title">Scott Campit</h2>
         <p class="t-tag">WEB DESIGN, ART DIRECTION, VISUAL SYSTEM</p>
       </div>
-      <p class="t-teaser">Brand, art direction, and website for an AI/ML engineer and founder — warm where technical portfolios default to cold.</p>
+      <p class="t-body">Brand, art direction, and website for an AI/ML engineer and founder — warm where technical portfolios default to cold.</p>
       <div class="project-media">
         <figure class="ph" data-ratio="3-2">
           <span data-alt-source="written">Scott Campit website and visual system</span>
@@ -159,7 +161,7 @@
         <h2 class="t-project" id="project-3-title">Types &amp; Tomes: In The Wild</h2>
         <p class="t-tag">PRINT, COLLATERAL, SOCIAL</p>
       </div>
-      <p class="t-teaser">The brand in practice — ongoing print, social, and event design for Types &amp; Tomes.</p>
+      <p class="t-body">The brand in practice — ongoing print, social, and event design for Types &amp; Tomes.</p>
       <div class="project-media">
         <figure class="ph" data-ratio="3-2">
           <span data-alt-source="written">Types &amp; Tomes print and event collateral</span>
@@ -211,10 +213,12 @@
 
           <dl class="meta-group">
             <dt class="t-label">STUDIO</dt>
-            <dd class="t-body">Based in Texas. Working with clients everywhere.</dd>
+            <dd class="t-currently">Based in Texas. Working with clients everywhere.</dd>
           </dl>
 
-          <dl class="meta-group">
+          <!-- meta-cta: takes --stack-break above it and a wider label-to-value
+               gap, per the measured Info rhythm. -->
+          <dl class="meta-group meta-cta">
             <dt class="t-label">WORKING ON SOMETHING?</dt>
             <dd><a class="t-cta cta-talk" href="contact/" data-contact-trigger>Let's talk →</a></dd>
           </dl>

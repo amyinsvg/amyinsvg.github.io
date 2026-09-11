@@ -51,11 +51,12 @@
   --t-h2:          2rem;
   --t-pullquote:   1.625rem;
   --t-project:     1.375rem;
-  /* DELIBERATE DIVERGENCE — do not "correct" this. §4 records Teaser caption
-     at 1.35rem. Dropped to 0.94rem to match --t-currently, because at 1.35
-     the project descriptions sat too high in the hierarchy. The two are now
-     the same size and both Instrument Serif. */
-  --t-teaser:      0.94rem;
+  /* Back to §4's captured value. It was briefly overridden to 0.94rem while
+     this style was (wrongly) carrying the project descriptions; those are now
+     Bodycopy per the type hierarchy audit, so the override had no basis left.
+     .t-teaser is currently UNUSED — kept because §4 says to build all 17
+     styles, and the next case study will likely want it. */
+  --t-teaser:      1.35rem;
   --t-nav:         1.3rem;
   --t-caption:     1.1rem;
   --t-subtitle:    1.1rem;
@@ -135,24 +136,44 @@
      it without JS. Verified against the rendered height at 1440px (67px).   */
   --header-h: calc(var(--stack-sm) * 2 + 1.3rem * 1.3);
 
-  /* Space around the project image, ABOVE and BELOW separately — the source
-     is asymmetric and the direction matters: the larger gap sits ABOVE, which
-     ties the image to the link beneath it. The build previously had this the
-     wrong way round (40px above, 60px below, measured at 1440).
+  /* Project block rhythm — all four measured from the Cargo rendering by the
+     type hierarchy audit. The gap ABOVE the image is roughly double the one
+     below, which ties the image to the link under it; the build previously
+     had that inverted.
 
-     Set from the RELATIVE instruction — top to about half, bottom to about a
-     fifth — rather than the absolute figures quoted alongside it (~55 / ~27).
-     Those were measured on a different basis: this build renders 40 / 60 box
-     edge to box edge, so a literal 55px would have GROWN the top gap instead
-     of tightening it. Ratio here is ~1.7:1, close to the ~2:1 the quoted
-     figures imply. Tune these two numbers if the live comparison disagrees. */
-  --media-above:  1.25rem;   /* was an effective 2.5rem  */
-  --media-below:  0.75rem;   /* was an effective 3.75rem */
+     CORRECTION ON RECORD: an earlier round set these to 20px/12px by treating
+     the quoted ~55/~27 as being on a different measurement basis and applying
+     a relative "halve it" reading instead. The audit measures 55/27
+     independently, so the absolute figures were right and that inference was
+     wrong — the gaps ended up about 2.7x too tight. These are the measured
+     values. */
+  --project-title-gap: 3rem;      /* title row -> description, ~48px */
+  --media-above:       3.45rem;   /* description -> image,     ~55px */
+  --media-below:       1.7rem;    /* image -> View Case Study, ~27px */
+  --project-next-gap:  3.75rem;   /* View Case Study -> ↓ Next, ~60px */
 
   --measure:      68ch;
   --stack-sm:     1.25rem;
   --stack-md:     2.5rem;
   --stack-lg:     4rem;
+
+  /* Info block rhythm — measured from Cargo. TWO scales, not one uniform
+     rhythm, because spacing is what encodes grouping here.
+
+     The fix for "Currently sits too close to IG" is the RATIO, not the
+     absolute gap: when the space above a label and the space below it are
+     similar, the label attaches upward to the previous group instead of down
+     to its own value. At ~1 : 3.5 each label reads as belonging to the value
+     beneath it, and neither gap has to be unusual.
+
+       label -> its value        16px   1x
+       value -> next label       57px   3.5x
+       email -> IG (same group)  17px   1x
+       before the CTA group     119px   7x
+       CTA label -> Let's talk   40px   2.5x   (= --stack-md exactly) */
+  --stack-pair:   0.9rem;    /* label to its value */
+  --stack-group:  3.2rem;    /* between groups, ~3.5x pair */
+  --stack-break:  6.5rem;    /* before the CTA group */
 }
 
 /* ---------------------------------------------------------------------------

@@ -60,7 +60,14 @@
   --t-tag:         0.95rem;
   --t-currently:   0.94rem;
   --t-body:        0.875rem;
-  --t-brandmark:   0.8rem;
+  /* DELIBERATE DIVERGENCE FROM THE SOURCE — do not "correct" this.
+     §4 of the spec records Brand Mark at 0.8rem, and the Cargo site renders
+     it that way. It is set to 1.3rem here to match Nav Link, at Amy's
+     request. SIZE ONLY: the weight stays 600 and the tracking stays 0.04em,
+     which are what still distinguish it from the nav links beside it.
+     Same class of intentional change as the uppercase Info labels.
+     NOTE: the mobile --header-h below derives from this value. */
+  --t-brandmark:   1.3rem;
   --t-label:       0.7rem;
 
   /* --- Layout -----------------------------------------------------------
@@ -100,6 +107,17 @@
      the arithmetic only lands on 142px if "column" means the cream, so that
      is the reading used here.                                              */
   --block-gap:    8.54%;
+
+  /* The header-to-hero gap, deliberately SEPARATE from --block-gap so tuning
+     it does not shrink every other gap on the page. Half of --block-gap as a
+     starting point; this is a visual call and will want tuning.
+
+     This only moves the hero, it does not resize it: .hero's height stays
+     locked to the full --block-gap-abs (see main.css). Both of the block's
+     edges rise by the same amount, so the hero no longer ends at the fold and
+     a yellow band sits at the bottom of the first screen. That is the
+     expected result, not a bug — the gaps between blocks are yellow anyway. */
+  --header-gap:   4.27%;
 
   /* Absolute twin of --block-gap, for use inside height calc().
      --block-gap is a percentage of the page's INLINE size; a percentage
@@ -146,6 +164,33 @@
        makes its height deterministic across the whole breakpoint instead of
        depending on where the nav happens to wrap: padding + brand mark line
        + row gap + nav line. Verified against the rendered 119px at 375px.  */
-    --header-h: calc(var(--stack-sm) * 3 + 0.8rem * 1.3 + 1.3rem * 1.3);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Header stacking breakpoint — WIDER than the mobile breakpoint above, and
+   for a different reason.
+
+   Raising the brand mark from 0.8rem to 1.3rem made it too wide to share a
+   row with the nav and the ↓ in a column that is only 45.9% of the viewport.
+   Measured: one row fits at 1250px and wraps at 1200px. Left to wrap on its
+   own, the header silently grew from 67px to 114px, --header-h no longer
+   matched reality, and the hero was pushed down far enough to put the
+   bottom-aligned name below the fold — measured at 1000, 900, 800 and 780.
+
+   So below 1300px (threshold plus headroom, because the fallback fonts are
+   wider than the webfonts when the CDN is blocked) the header uses the same
+   deterministic TWO-ROW layout as mobile: brand mark on its own row, nav and
+   cue on the next. --header-h is the two-row formula here, in rem, so it
+   stays correct in both the 100% and the 115% root-size regimes.
+
+   This is why the value is defined here and not in the mobile block: the
+   stacking range is bigger than the Maximize-Page-Width range.
+   --------------------------------------------------------------------------- */
+@media (max-width: 1300px) {
+  :root {
+    /* brand row + nav row. Two explicit terms, not a doubled constant, so it
+       stays legible as what it is. */
+    --header-h: calc(var(--stack-sm) * 3 + 1.3rem * 1.3 + 1.3rem * 1.3);
   }
 }

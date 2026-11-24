@@ -156,8 +156,14 @@
       </div>
       <p class="t-body">An AI camera safety pilot for warehouses and food plants. Site structure, copy and trust design for buyers who worry about their teams being watched.</p>
       <div class="project-media">
+        <!-- Looping recording of clearboundsafety.com, the 16:9 hero from the
+             case study extended to 3:2 so the navbar stays and there are no
+             blank bands; see assets/js/motion.js. -->
         <figure class="shot" data-ratio="3-2">
-          <img src="assets/img/work/clearbound/cover.webp" width="1440" height="960" loading="lazy" alt="Clearbound Safety homepage hero with the headline &quot;Catch near misses before they become claims.&quot; beside warehouse camera footage.">
+          <video class="shot-video" muted loop playsinline preload="none" poster="assets/img/work/clearbound/cover.jpg" width="1440" height="960" aria-label="Clearbound Safety homepage with its navigation bar. The headline reads &quot;Catch near misses before they become claims.&quot; Beside it, the site's sample clip plays: two workers walking down a racked aisle with detection boxes around them, then an overhead view of a pallet being moved through a shaded entrance zone.">
+            <source src="assets/img/work/clearbound/cover.webm" type="video/webm">
+            <source src="assets/img/work/clearbound/cover.mp4" type="video/mp4">
+          </video>
         </figure>
       </div>
       <p><a class="t-cta cta-case" href="work/clearbound/">View case study →</a></p>

@@ -29,11 +29,11 @@
   var ENDPOINT = "https://api.web3forms.com/submit";
 
   /* The access key is public by design — it ships in client-side HTML and is
-     protected by the domain restriction (registered to amyinsvg.github.io),
+     protected by the domain restriction (registered to amyinsvg.com),
      not by secrecy. Safe to commit. Submissions from localhost/file:// are
      rejected on purpose; stub window.fetch to test the UI states. */
   var ACCESS_KEY = "4dc4b306-f30b-43bf-acf0-1f364a38059d";
-  var SUBJECT = "New inquiry from amyinsvg.github.io";
+  var SUBJECT = "New inquiry from amyinsvg.com";
 
   /* Surfaced in the form's failure state so a message is never lost. The Info
      block in index.html carries its own copy of this address in the markup —
@@ -122,7 +122,7 @@
 
       /* window.fetch is called through the global on purpose: stubbing
          window.fetch is how the three states get tested locally, since the
-         live endpoint is domain-restricted to amyinsvg.github.io and will
+         live endpoint is domain-restricted to amyinsvg.com and will
          (correctly) reject localhost. */
       window.fetch(ENDPOINT, {
         method: "POST",

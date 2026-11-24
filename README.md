@@ -10,12 +10,14 @@ install. `.nojekyll` is present so GitHub Pages serves the files directly.
 
 ## Deploy
 
-Settings → Pages → deploy from branch, root. Nothing else to configure.
+Settings → Pages → deploy from branch, root, custom domain `amyinsvg.com`,
+Enforce HTTPS on.
 
-No `CNAME` and no DNS: the site is a user site at `amyinsvg.github.io`, which
-is also the canonical URL and the base for the absolute URLs in the metadata.
-If a custom domain is added later, that means a `CNAME` file plus DNS, **and**
-updating the `canonical` / `og:url` on all five pages.
+The canonical URL is `https://amyinsvg.com/`, set by the `CNAME` file and the
+base for the absolute URLs in the metadata. DNS is in Route 53: four `A` and
+four `AAAA` records on the apex for GitHub Pages, and `www` as a `CNAME` to
+`amyinsvg.github.io`. `amyinsvg.github.io` redirects to the custom domain.
+Types & Tomes is a separate site on Vercel at `typesandtomes.com`.
 
 ## Local preview
 
@@ -29,7 +31,7 @@ python3 -m http.server 8000
 Two things behave differently locally, both on purpose:
 
 - **The contact form will fail.** The Web3Forms form is registered to
-  `amyinsvg.github.io`, and submissions from other origins are rejected. That
+  `amyinsvg.com`, and submissions from other origins are rejected. That
   domain restriction is what protects a deliberately public access key — do
   not weaken it to make local testing convenient. Stub `window.fetch` to
   exercise the UI states instead; see below.

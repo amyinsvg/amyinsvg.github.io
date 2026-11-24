@@ -1,10 +1,10 @@
 <!-- Favicon. §9 asks for one; no favicon asset was captured from the live
      site, so this is deliberately geometric — a plum dot on the frame field.
      No lettering, because the display face (General Sans) cannot be embedded
-     here for licence reasons and any other face would misrepresent the mark.
+     here for license reasons and any other face would misrepresent the mark.
      Purely provisional: replace it when a real mark exists.
 
-     The two hex values below are the only place in the repo where colour is
+     The two hex values below are the only place in the repo where color is
      written literally instead of via a token. An SVG file cannot read the
      custom properties in tokens.css, so there is no way around it. They are
      --c-frame (#F2E8B3) and --c-link (#592B43); if either token changes,

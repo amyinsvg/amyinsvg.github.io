@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Wei — Amy Wong</title>
+<meta name="description" content="Product design for Wei, a recipe app that ranks your saved recipes by what is already in your kitchen: the matcher, every state, scope cuts and a build brief.">
+<link rel="canonical" href="https://amyinsvg.github.io/work/wei/">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Amy Wong">
+<meta property="og:title" content="Wei — Amy Wong">
+<meta property="og:description" content="Product design for Wei, a recipe app that ranks your saved recipes by what is already in your kitchen: the matcher, every state, scope cuts and a build brief.">
+<meta property="og:url" content="https://amyinsvg.github.io/work/wei/">
+<meta property="og:image" content="https://amyinsvg.github.io/assets/img/work/wei/cover.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Wei — Amy Wong">
+<meta name="twitter:description" content="Product design for Wei, a recipe app that ranks your saved recipes by what is already in your kitchen: the matcher, every state, scope cuts and a build brief.">
+<meta name="twitter:image" content="https://amyinsvg.github.io/assets/img/work/wei/cover.webp">
+
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+
+<!-- General Sans loads from the Fontshare CDN and must never be committed to
+     this repo: the ITF Free Font License forbids redistributing the files and
+     requires ITF's written consent to self-host as a webfont, and this repo is
+     public. Full reasoning in /index.html. Only weight 700 is requested. -->
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@700&display=swap">
+
+<link rel="stylesheet" href="../../assets/css/tokens.css">
+<link rel="stylesheet" href="../../assets/css/main.css">
+</head>
+
+<body>
+<a class="skip t-nav" href="#main">Skip to content</a>
+
+<!-- 2026-11-23 rewrite. Every claim below comes from wei_build_brief.md and
+     wei-matcher.html in ~/Documents/Claude/Projects/Recipe app. Confirmed by
+     Amy 2026-11-23:
+       1. Credit. Entirely Amy. (The brief mentions another person; he had no
+          part in the work, so the page never names him.)
+       2. Year. 2025.
+       3. Status. Prototype and design only; the app is not built. The page
+          is about the design thinking, not a shipped product.
+     Only the matcher screen exists as UI, so it is the only screen shown.
+     The other screens and states are described in text from the brief, not
+     mocked up. Images:
+       matcher.webp, cover.webp, brand.webp: workspace/exports/portfolio-shots/
+         shots.mjs (job slug "wei"). brand.webp is a board built from the
+         palette in the brief, not a screenshot.
+       matches.webp: captured from wei-matcher.html with headless Chrome at
+         a 420px phone width, 1080 x 1080, unedited. -->
+
+<div class="page">
+
+  <header class="site-header">
+    <p class="t-brandmark">Brand &amp; Digital Designer</p>
+    <nav class="site-nav" aria-label="Primary">
+      <a class="t-nav" href="../../#info">Info</a>
+      <a class="t-nav" href="../../contact/" data-contact-trigger>Contact</a>
+      <a class="t-nav" href="https://www.instagram.com/amyinsvg" rel="me noopener" target="_blank">IG</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <article class="block case">
+
+      <p><a class="case-back t-cta" href="../../#project-1">← Back to work</a></p>
+
+      <div class="case-head">
+        <h1 class="t-h2">Wei</h1>
+        <p class="t-subtitle">A recipe app that starts from what is in your kitchen and ranks recipes by how much of each one you can already cook.</p>
+        <p class="t-tag">Product Design · UX · Brand · 2025 · In Stealth</p>
+      </div>
+
+      <figure class="shot" data-ratio="16-9">
+        <img src="../../assets/img/work/wei/matcher.webp" width="1440" height="810" alt="Wei matcher screen on a phone. The headline reads &quot;What's in your kitchen?&quot; above red, yellow and green ingredient chips for tomato, egg and scallion. Below them, the top matches: a tomato and egg dish scored 100 and egg drop soup scored 75, with the list continuing past the bottom of the frame.">
+      </figure>
+
+      <div class="case-body">
+        <p class="t-body">Wei is in stealth and not built yet. This page covers the product thinking and the prototype, and leaves out launch details.</p>
+
+        <h2 class="t-label">The problem</h2>
+        <p class="t-body-lg">Most recipe apps start with a recipe and send you shopping. On a weeknight it usually goes the other way, with food in the fridge and no plan. Wei starts from the fridge. You list what you have, and it shows which of your saved recipes you can make, ranked by how much of each one is already in the kitchen.</p>
+
+        <h2 class="t-label">Who it is for</h2>
+        <p class="t-body-lg">Version 1 is for a single household, planning dinner on a phone in the kitchen. A small, known group meant the app could skip accounts and most settings and put its effort into one moment, opening the app and seeing dinner.</p>
+
+        <h2 class="t-label">The matcher is the home screen</h2>
+        <p class="t-body-lg">The matcher is the reason to open the app, so it is the first screen after sign-in. Ingredients you add become chips colored like the food, tomato red, egg yellow and scallion green, so the list reads at a glance, and each chip has its own remove button.</p>
+
+        <h2 class="t-label">A score you can act on</h2>
+        <p class="t-body-lg">A recipe's score is the share of its ingredients you already have. Three of three is 100 and three of four is 75. Each row also turns the number into one plain line, such as "15 min · all 3 ingredients" or "30 min · need 2 more", because that line tells you whether dinner needs a trip to the store. Each row below the top match is a little paler than the one above, so the best option is the strongest thing on the screen.</p>
+      </div>
+
+      <div class="case-figures">
+        <figure class="shot" data-ratio="1-1">
+          <img src="../../assets/img/work/wei/matches.webp" width="1080" height="1080" loading="lazy" alt="Close-up of the ranked list under &quot;3 recipes match&quot;. 番茄炒蛋 (tomato and egg) scores 100 with a full red bar and &quot;15 min · all 3 ingredients&quot;. Egg drop soup scores 75 with &quot;20 min · need 1 more&quot;. Scallion pancakes scores 50 with &quot;30 min · need 2 more&quot;. Each lower card is paler than the one above it, and a faint 味 sits behind the list.">
+        </figure>
+      </div>
+
+      <div class="case-body">
+        <p class="t-body-lg">Matching in version 1 is a plain text match. "Tomato" finds recipes that use tomatoes, and "soy sauce" matches only soy sauce. Salt and oil count like any other ingredient, so a recipe can lose points for things every kitchen has. Letting the matcher ignore staples is on the version 2 list, and the brief says to revisit the matching itself only if results turn out noisy.</p>
+
+        <h2 class="t-label">Every state, written before the build</h2>
+        <p class="t-body-lg">Seven screens are specified. They are the password screen, the matcher, recipe detail, add recipe, the recipe bank, the shopping list and settings. The matcher alone has four states.</p>
+        <ul class="case-deliverables t-body">
+          <li>First launch, with no recipes saved. There is nothing to match yet, so the screen says "Welcome. Let us show you the wei." It shows three short cards on what Wei does and offers one button, "Add your first recipe".</li>
+          <li>No ingredients yet. "What's in your kitchen?" with recently used ingredients as chips you can tap to add.</li>
+          <li>Typing. Suggestions come from your own recipes, each with the number of recipes that use it, and you can add the typed word as a new ingredient.</li>
+          <li>Ingredients added. The ranked list shown above.</li>
+        </ul>
+        <p class="t-body-lg">Every main screen also has a loading and an error state. Loading shows soft cream placeholder shapes, and a failed load says "Couldn't load. Tap to retry." Deleting a recipe asks for confirmation. Signing out does not, because you can sign straight back in. An empty shopping list says "Nothing to buy." If two recipes need the same ingredient, the list shows one row that names both.</p>
+
+        <h2 class="t-label">One password for version 1</h2>
+        <p class="t-body-lg">Accounts are the most complex part of a multi-user app, and one household does not need them yet. Version 1 opens on a single shared password, remembers you after that, and has a sign-out button. The brief also records how accounts get added later. Every table gets a household ID, existing data moves into one household, and real sign-in goes on top. In the build order, the password screen comes last, after the app works.</p>
+
+        <h2 class="t-label">Less typing on a phone</h2>
+        <p class="t-body-lg">Typing a whole recipe on a phone is slow, so two small AI steps take some of the typing away. Type a line like "1 tbsp soy sauce" and one step splits it into amount, unit and ingredient, shown under the line where you can correct it. When an ingredient appears for the first time, another step files it under a grocery aisle, which the shopping list uses to group items. If the AI is unavailable, both keep the text as you typed it. On the same screen, difficulty is three buttons for easy, medium and hard, and time and servings open the number keyboard.</p>
+
+        <h2 class="t-label">What I cut</h2>
+        <p class="t-body-lg">The brief lists what version 1 leaves out, each with a reason, and sets the rule "when in doubt, cut features".</p>
+        <ul class="case-deliverables t-body">
+          <li>Cook mode, a step-by-step view with timers. The steps sit on the recipe page instead, and cook mode is a version 2 feature.</li>
+          <li>Importing a recipe from a link (version 1.5) or from a photo of a cookbook page (later).</li>
+          <li>Recipe photos. Recipes work without them.</li>
+          <li>Accounts and household sharing. One password covers version 1.</li>
+          <li>A "cook again?" prompt, cut outright because Wei is for planning new meals. Tracking what you cooked waits for version 2.</li>
+          <li>Ignoring staples when matching, merging quantities on the shopping list, notifications, themes and profile photos.</li>
+        </ul>
+
+        <h2 class="t-label">A brand from one dish</h2>
+        <p class="t-body-lg">Wei is <span lang="zh-Hans">味</span>, pronounced "way", the Mandarin word for flavor, with a play on "the way". The app started from tomato and egg, <span lang="zh-Hans">番茄炒蛋</span>, a comfort dish, which is also the top match in the prototype. The palette is named after ingredients, from rice cream to ink black, and the same colors mark the ingredient chips. The character sits as a faint watermark on most screens and large on the password screen. The working tagline is "Let us show you the wei."</p>
+      </div>
+
+      <div class="case-figures">
+        <figure class="shot" data-ratio="3-2">
+          <img src="../../assets/img/work/wei/brand.webp" width="1440" height="960" loading="lazy" alt="Wei brand board: a large red 味 character, the tagline &quot;Let us show you the wei.&quot;, five palette swatches from rice cream to ink black, three colored ingredient chips, and a 100 percent match card for tomato and egg.">
+        </figure>
+      </div>
+
+      <div class="case-body">
+        <h2 class="t-label">Result</h2>
+        <p class="t-body-lg">The matcher exists as an interactive prototype. You can remove a chip, switch tabs and tap a recipe. The other six screens, their states, the data model, the matching formula, the two AI steps and a build order are in a build brief that a developer can start from.</p>
+
+        <h2 class="t-label">What this means for your product</h2>
+        <p class="t-body-lg">I start a first version from the one moment people open the app for, and design that screen first. I specify every state before anyone builds, and I write down what is cut and why. That gives a small team a document to build from, and a written list of what to add once people are using it.</p>
+
+        <h2 class="t-label">Deliverables</h2>
+        <ul class="case-deliverables t-body">
+          <li>Product design and prototype</li>
+          <li>Brand direction</li>
+          <li>Build brief</li>
+        </ul>
+      </div>
+
+      <p class="case-next"><a class="t-cta" href="../clearbound/">Next → Clearbound Safety</a></p>
+
+    </article>
+  </main>
+
+  <footer class="site-footer block">
+    <p><a class="t-cta" href="../../">↑ Home</a></p>
+    <p class="t-tag">©2026 Chunky Melon Design</p>
+  </footer>
+
+</div>
+
+<script src="../../assets/js/contact.js" defer></script>
+</body>
+</html>

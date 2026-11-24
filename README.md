@@ -64,7 +64,7 @@ to live.
 Three of the four families are self-hosted; one is not, and that asymmetry is
 deliberate.
 
-| Family | Licence | Loaded from |
+| Family | License | Loaded from |
 |---|---|---|
 | Inter Tight | SIL OFL | `assets/fonts/` |
 | Instrument Serif | SIL OFL | `assets/fonts/` |
@@ -72,13 +72,13 @@ deliberate.
 | General Sans | ITF Free Font License | **Fontshare CDN — do not self-host** |
 
 **General Sans must stay on the CDN.** It is free for commercial use, but the
-ITF licence forbids redistributing the font files and requires ITF's *written
+ITF license forbids redistributing the font files and requires ITF's *written
 consent* to self-host it as a webfont. This repository is public, and a public
 GitHub Pages repo is a public server, so committing the `.woff2` would be
 redistribution. There is a comment saying so at every `<link>`. If you came
 here to make the loading consistent: get written consent first.
 
-**Monument Grotesk is not used anywhere.** Dinamo's licence excludes storing
+**Monument Grotesk is not used anywhere.** Dinamo's license excludes storing
 the files on publicly available servers. Both styles that used it fold into
 DM Mono per spec §4 — which is why Heading 2 is Medium 500 rather than the
 captured 700 (DM Mono has no Bold).
@@ -94,8 +94,8 @@ Worth understanding before changing any layout, because the obvious reading is
 the wrong one.
 
 **Yellow is the page background, not a border.** The cream areas are separate
-stacked blocks in a centred column, with the page showing through the gaps
-between them — a stack of cards on a coloured page, not one field with
+stacked blocks in a centered column, with the page showing through the gaps
+between them — a stack of cards on a colored page, not one field with
 sections inside it. An earlier version of the build spec described it as an
 inset frame; that was wrong and `--frame-inset` is gone.
 
@@ -103,7 +103,7 @@ Two nested layers, both from Cargo's own Local Page Settings:
 
 | Layer | Value | Source |
 |---|---|---|
-| `.page` | 50% of viewport, centred | Cargo "Width 50" |
+| `.page` | 50% of viewport, centered | Cargo "Width 50" |
 | `.block` | cream, inset 4.1% of the page each side → 45.9% of viewport | Cargo "Inset 3"; measured 45.8 / 45.9 / 45.9 / 46.1 |
 | gap | 8.54% of page width = 9.3% of the cream's own width | measured 142px against a 1530px column |
 
@@ -120,7 +120,7 @@ when mobile browser chrome shows and hides.
 On mobile the 50% column does not hold: Cargo's "Maximize Page Width" is on,
 so the page goes full width with reduced padding and a small inset retained so
 the yellow still reads. Cargo's "Scale 140%" is a rendering mechanic, not CSS;
-it is honoured as a single 1.15x root-size bump so all 17 styles keep their
+it is honored as a single 1.15x root-size bump so all 17 styles keep their
 proportions, not by multiplying every size by 1.4.
 
 **One caveat, deliberately unresolved:** Cargo's captured settings are scoped
@@ -132,7 +132,7 @@ each page's two settings panels before the subscription lapses would settle it.
 
 ## Tokens
 
-`assets/css/tokens.css` holds every colour, family, size and spacing value.
+`assets/css/tokens.css` holds every color, family, size and spacing value.
 Nothing is hardcoded anywhere else — the one unavoidable exception is
 `assets/img/favicon.svg`, because an SVG file cannot read CSS custom
 properties. Its two hex values are commented with the tokens they mirror.

@@ -5,13 +5,24 @@
    This is a MIGRATION, not a redesign. Every value below was captured from the
    live Cargo site before the subscription lapsed. Do not "improve" them.
 
-   Every colour and font reference in main.css points at a custom property
+   Every color and font reference in main.css points at a custom property
    defined here. Nothing is hardcoded — swapping a value should be a one-line
    change in this file and nowhere else.
    =========================================================================== */
 
+/* 2026-11-23 FONT PREVIEW, option A — not approved.
+   Switzer (body/UI) from Fontshare: ITF Free Font License, CDN only, never
+   commit the files (same rule as General Sans). Geist Mono (labels) from
+   Google Fonts for the preview only: SIL OFL 1.1, so if kept it gets
+   self-hosted like DM Mono and this second import goes.
+   @import is used so the preview is one place to revert; it is slower than
+   <link> in the head, which is what the final version should use.
+   To revert: delete these two lines and restore --font-ui / --font-mono. */
+@import url("https://api.fontshare.com/v2/css?f[]=switzer@400,401,500,501,600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&display=swap");
+
 :root {
-  /* --- Colour ------------------------------------------------------------
+  /* --- Color ------------------------------------------------------------
      Sampled from screenshots, including a magnified crop of the Info section
      where the type was large enough to give flat, unantialiased fills.
      Spec §3 marks these as confirmed — build against them directly.        */
@@ -19,27 +30,33 @@
   --c-frame:      #F2E8B3;  /* outer border field */
   --c-surface:    #F5F1E5;  /* content field */
   --c-ink:        #131313;  /* body and display text */
-  --c-link:       #592B43;  /* links — the only chromatic accent ("plum") */
+  /* 2026-11-23 TRIAL: plum brightened at Amy's request so it reads as a
+     color. The Cargo value #592B43 was 10:1 on cream but only 1.64:1
+     against the ink, so at label sizes it read as black. #8F2D6E is 6.7:1 on
+     cream and 6.1:1 on the yellow (AA for any size) and 2.45:1 against ink.
+     The old value is kept as --c-link-deep for hover/pressed states. */
+  --c-link:       #8F2D6E;  /* links — the only chromatic accent ("plum") */
+  --c-link-deep:  #592B43;  /* original Cargo plum, now the darker state */
   --c-rule:       #939189;  /* hairline */
 
-  /* Third ink colour: secondary text, one step back from black.
+  /* Third ink color: secondary text, one step back from black.
      Used by Subtitle Italic, Tag/Metadata and Teaser caption.
      Confirmed by sampling — not a placeholder. (An earlier build note called
      this provisional; that note was stale and the spec was right.)          */
   --c-ink-mute:   #606060;  /* secondary text */
 
   /* --- Type families ----------------------------------------------------
-     Four families, per spec §4. Loading strategy differs by licence — see
+     Four families, per spec §4. Loading strategy differs by license — see
      the @font-face block and the Fontshare <link> comment in main.css.
 
-     Monument Grotesk is deliberately absent. Dinamo's licence excludes
+     Monument Grotesk is deliberately absent. Dinamo's license excludes
      storing the files on publicly available servers, and this repo is public.
      Both styles that used it (Heading 2, Caption) fold into DM Mono per §4.  */
 
   --font-display: "General Sans", "Helvetica Neue", Arial, sans-serif;
-  --font-ui:      "Inter Tight", "Helvetica Neue", Arial, sans-serif;
+  --font-ui:      "Switzer", "Inter Tight", "Helvetica Neue", Arial, sans-serif;   /* preview A; was "Inter Tight" first */
   --font-serif:   "Instrument Serif", Georgia, serif;
-  --font-mono:    "DM Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --font-mono:    "Geist Mono", "DM Mono", ui-monospace, "SF Mono", Menlo, monospace;   /* preview A; was "DM Mono" first */
 
   /* --- Type scale --------------------------------------------------------
      rem, transcribed from Cargo's Text Styles panel. All 17 styles.
@@ -48,9 +65,11 @@
 
   --t-hero:        8.25rem;
   --t-h1:          4rem;
-  --t-h2:          2rem;
+  --t-h2:          2.5rem;   /* 2026-11-23: was 2rem in DM Mono; now the case
+                                study title in the display face */
   --t-pullquote:   1.625rem;
-  --t-project:     1.375rem;
+  --t-project:     1.75rem;   /* 2026-11-23: was 1.375rem; body moved to 1rem, so
+                                 titles step up to keep a 1.75x ratio */
   /* Back to §4's captured value. It was briefly overridden to 0.94rem while
      this style was (wrongly) carrying the project descriptions; those are now
      Bodycopy per the type hierarchy audit, so the override had no basis left.
@@ -63,11 +82,14 @@
   --t-nav:         1.1125rem;
   --t-caption:     1.1rem;
   --t-subtitle:    1.1rem;
-  --t-body-lg:     1.05rem;
+  --t-body-lg:     1.125rem;  /* 2026-11-23: was 1.05rem; case study reading size */
   --t-cta:         1.05rem;
   --t-tag:         0.825rem;   /* was 0.95 — discipline labels, all 3 blocks */
-  --t-currently:   0.94rem;
-  --t-body:        0.875rem;
+  /* 2026-11-23 TRIAL: body raised from 0.875rem (14px) to the 16px reading
+     floor, and Currently folded into it — the 14px / 15.04px near-miss was
+     two sizes doing one job. */
+  --t-currently:   1rem;
+  --t-body:        1rem;
   /* DELIBERATE DIVERGENCE FROM THE SOURCE — do not "correct" this.
      §4 of the spec records Brand Mark at 0.8rem, and the Cargo site renders
      it that way. It is 1.2375rem here at Amy's request. SIZE ONLY: the weight
@@ -80,21 +102,22 @@
 
      NOTE: both --header-h formulas below derive from this value. */
   --t-brandmark:   1.2375rem;   /* 19.8px */
-  --t-label:       0.7rem;
+  --t-label:       0.875rem;  /* 2026-11-23: was 0.7rem (11.2px) tracked caps;
+                                 sentence case needs the extra size */
 
   /* --- Layout -----------------------------------------------------------
      SUPERSEDES §3 of the build spec. The spec described the yellow as an
      inset frame around one content field. It is not: yellow is the PAGE
-     BACKGROUND, and the cream areas are separate stacked blocks in a centred
+     BACKGROUND, and the cream areas are separate stacked blocks in a centered
      column with the page showing through the gaps between them. A stack of
-     cards on a coloured page, not one field with sections inside it.
+     cards on a colored page, not one field with sections inside it.
 
      --frame-inset and --field-pad are deliberately gone. They encoded the
      wrong model; nothing should reference them.
 
      Two nested layers, from Cargo's own Local Page Settings:
 
-       .page   width 50% of viewport, centred          ("Width 50")
+       .page   width 50% of viewport, centered          ("Width 50")
        .block  cream, inset inside the page            ("Inset 3")
                -> 4.1% of page width each side leaves the cream at
                   45.9% of the viewport, which is the measured figure
@@ -105,7 +128,7 @@
      45.9% cream are two different edges, and the gap between them is what
      produces the yellow down each side. Hence two values, not one.          */
 
-  --page-width:   50%;     /* of viewport, centred */
+  --page-width:   50%;     /* of viewport, centered */
   --block-inset:  4.1%;    /* of page width, each side -> cream at 45.9%vw */
   --block-pad:    4.1%;    /* of page width — Cargo "Padding 3", which is the
                               same unit value as Inset 3, so the same

@@ -2,7 +2,7 @@
    main.css — layout, type styles, components
    ---------------------------------------------------------------------------
    Migration of amyinsvg.cargo.site to static files. Not a redesign.
-   All colour and font values come from tokens.css. Nothing hardcoded here.
+   All color and font values come from tokens.css. Nothing hardcoded here.
    =========================================================================== */
 
 /* ---------------------------------------------------------------------------
@@ -13,7 +13,7 @@
    woff2, font-display: swap. Only the weights §4 lists are loaded.
 
    General Sans is NOT here on purpose. See the Fontshare <link> comment in
-   every HTML head — it must stay on the CDN for licence reasons.
+   every HTML head — it must stay on the CDN for license reasons.
    --------------------------------------------------------------------------- */
 
 /* Inter Tight — Italic 400, Medium 500, SemiBold 600.
@@ -22,10 +22,14 @@
    both Medium and SemiBold; two static instances would have been 45.2 KB
    across two requests, so this is the same payload with one fewer round trip.
    If a third roman weight is ever needed it is a range edit, not a download. */
+/* 2026-11-23 WEIGHT FIX: this was declared 500 600, so every request for 400
+   (all body copy) matched the 500 face and rendered Medium — body and
+   project titles were the same weight. The file is the full 100–900
+   variable instance, so declaring the full range costs nothing. */
 @font-face {
   font-family: "Inter Tight";
   src: url("../fonts/inter-tight-var-latin.woff2") format("woff2");
-  font-weight: 500 600;
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
@@ -119,8 +123,8 @@ button, input, textarea, select { font: inherit; color: inherit; }
    ---------------------------------------------------------------------------
    The spec described the yellow as an inset frame around a single content
    field. It is not. Yellow is the page background; the cream areas are
-   SEPARATE STACKED BLOCKS in a centred column, with the page showing through
-   the gaps between them. A stack of cards on a coloured page.
+   SEPARATE STACKED BLOCKS in a centered column, with the page showing through
+   the gaps between them. A stack of cards on a colored page.
 
        yellow page background
            BRAND & DIGITAL DESIGNER      Info Contact IG   <- header on yellow
@@ -132,7 +136,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
            |  cream block: project 1     |
            +-----------------------------+
 
-   Two layers: .page is 50% of the viewport and centred; .block is the cream,
+   Two layers: .page is 50% of the viewport and centered; .block is the cream,
    inset inside it so the yellow shows down both sides. See tokens.css for
    where each number comes from.
 
@@ -146,7 +150,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
 
 .page {
   width: var(--page-width);
-  margin-inline: auto;          /* pure centring — measured 900px vs 904px
+  margin-inline: auto;          /* pure centering — measured 900px vs 904px
                                    of margin at 3334px wide */
   display: flex;
   flex-direction: column;
@@ -210,7 +214,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
    Info Label and Accent Marker are identical in every property, so they are
    one class (.t-label), per §4.
 
-   Caption, Heading 1 and Heading 2 set NO colour and inherit from their
+   Caption, Heading 1 and Heading 2 set NO color and inherit from their
    parent — deliberately not assigned one.
 
    MAPPING CAVEAT — not verified, do not treat as settled:
@@ -223,6 +227,8 @@ button, input, textarea, select { font: inherit; color: inherit; }
 
 /* Hero Display — General Sans Bold, 8.25rem/0.9, −0.04em, 700, ink.
    8.25rem is 132px and overflows a phone, so it is clamped per §4. */
+/* 2026-11-23 TRIAL: the name is set in plum — the largest, most deliberate
+   use of the accent, so the color is established at the first screen. */
 .t-hero {
   font-family: var(--font-display);
   font-size: clamp(3rem, 13vw, var(--t-hero));
@@ -230,18 +236,19 @@ button, input, textarea, select { font: inherit; color: inherit; }
   letter-spacing: -0.04em;
   font-weight: 700;
   font-style: normal;
-  color: var(--c-ink);
+  color: var(--c-link);
 }
 
-/* Heading 1 — General Sans Bold, 4rem/0.9, 0, 700, colour INHERITED.
+/* Heading 1 — General Sans Bold, 4rem/0.9, 0, 700, color INHERITED.
    Clamped too, "more gently" per §4. */
 .t-h1 {
   font-family: var(--font-display);
   font-size: clamp(2.25rem, 7vw, var(--t-h1));
   line-height: 0.9;
-  letter-spacing: 0;
+  letter-spacing: -0.02em;
   font-weight: 700;
   font-style: normal;
+  color: var(--c-link);   /* 2026-11-23 TRIAL: matches the hero name */
 }
 
 /* Heading 2 — captured as Monument Grotesk Mono Bold 700; folded into
@@ -250,13 +257,18 @@ button, input, textarea, select { font: inherit; color: inherit; }
    THE FALLBACK, IF 500 TURNS OUT TOO LIGHT: move all six mono styles to
    IBM Plex Mono (OFL, runs to 700). That shifts the character of the small
    labels too, so §4 calls it a design decision, not a build one. Not taken
-   here. Colour inherited. */
+   here. Color inherited. */
+/* 2026-11-23 HIERARCHY FIX: page titles (case studies, Contact, 404) move
+   from DM Mono 500 to the display face at 700, so every page title shares
+   one family with the hero and Info heading. Mono stays for labels, tags and
+   links, which is the job it does everywhere else. Supersedes the note
+   above. */
 .t-h2 {
-  font-family: var(--font-mono);
-  font-size: var(--t-h2);
-  line-height: 1.1;
-  letter-spacing: 0;
-  font-weight: 500;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.5vw, var(--t-h2));
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-weight: 700;
   font-style: normal;
 }
 
@@ -282,7 +294,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
   color: var(--c-ink);
 }
 
-/* Teaser caption — Instrument Serif, 1.35rem/1.65, 0, 400, grey.
+/* Teaser caption — Instrument Serif, 1.35rem/1.65, 0, 400, gray.
 
    CURRENTLY UNUSED. §4 mapped this style to the homepage project
    descriptions on the strength of its name; the type hierarchy audit
@@ -312,7 +324,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
 }
 
 /* Caption — captured as Monument Grotesk Variable wght 440; folded into
-   DM Mono, which has no 440, so 400. Colour inherited. */
+   DM Mono, which has no 440, so 400. Color inherited. */
 .t-caption {
   font-family: var(--font-mono);
   font-size: var(--t-caption);
@@ -322,7 +334,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
   font-style: normal;
 }
 
-/* Subtitle Italic — Instrument Serif italic, 1.1rem/1.2, 0, 400, grey. */
+/* Subtitle Italic — Instrument Serif italic, 1.1rem/1.2, 0, 400, gray. */
 .t-subtitle {
   font-family: var(--font-serif);
   font-size: var(--t-subtitle);
@@ -342,28 +354,34 @@ button, input, textarea, select { font: inherit; color: inherit; }
    the source. It also surfaces in the contact overlay's sent/failed messages
    and on 404 and /contact/thanks/, so those render italic today. Check
    against the source before changing. */
+/* 2026-11-23: now ROMAN. Whole case study paragraphs in italic were the
+   weakest reading experience on the site, and the note above already
+   suspected the italic was the same §4 mistake as Bodycopy. */
 .t-body-lg {
   font-family: var(--font-ui);
   font-size: var(--t-body-lg);
   line-height: 1.6;
   letter-spacing: 0;
   font-weight: 400;
-  font-style: italic;
+  font-style: normal;
   color: var(--c-ink);
 }
 
 /* View Case Study — DM Mono, 1.05rem/1.65, 0.08em, 400, plum. */
+/* 2026-11-23 NO-CAPS PASS: links move from tracked DM Mono to the body face
+   at Medium, sentence case, plum. Tracked mono caps read as a template tell;
+   the color and weight now carry the link. */
 .t-cta {
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: var(--t-cta);
   line-height: 1.65;
-  letter-spacing: 0.08em;
-  font-weight: 400;
+  letter-spacing: 0;
+  font-weight: 500;
   font-style: normal;
   color: var(--c-link);
 }
 
-/* Tag/Metadata — DM Mono, 0.95rem/1.9, 0.05em, 400, grey. */
+/* Tag/Metadata — DM Mono, 0.95rem/1.9, 0.05em, 400, gray. */
 .t-tag {
   font-family: var(--font-mono);
   font-size: var(--t-tag);
@@ -423,7 +441,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
   font-family: var(--font-ui);
   font-size: var(--t-brandmark);
   line-height: 1.3;
-  letter-spacing: 0.04em;
+  letter-spacing: -0.01em;   /* 2026-11-23: sentence case now; 0.04em was caps tracking */
   font-weight: 600;
   font-style: normal;
   color: var(--c-ink);
@@ -431,14 +449,27 @@ button, input, textarea, select { font: inherit; color: inherit; }
 
 /* Info Label + Accent Marker — identical in every property, so one class.
    DM Mono, 0.7rem/1.5, 0.08em, 400, plum. */
+/* 2026-11-23 NO-CAPS PASS: labels are sentence case in the body face at
+   SemiBold, plum — a label you read, not a tracked mono eyebrow. */
 .t-label {
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: var(--t-label);
-  line-height: 1.5;
-  letter-spacing: 0.08em;
-  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0;
+  font-weight: 600;
   font-style: normal;
   color: var(--c-link);
+}
+
+/* Case study section headings were the same tiny label; they are real
+   subheads now, in ink, pulled closer to the paragraph they introduce. */
+.case-body > h2.t-label {
+  font-size: 1.375rem;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--c-ink);
+  margin-top: var(--stack-sm);
+  margin-bottom: calc(var(--stack-sm) - var(--stack-md));
 }
 
 /* Several styles above are defined for pages that do not exist yet (§4).
@@ -452,6 +483,9 @@ button, input, textarea, select { font: inherit; color: inherit; }
 
 a { color: var(--c-link); text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
 a:hover { text-decoration-thickness: 2px; }
+
+/* 2026-11-23 TRIAL: selected text in plum, so the accent shows up in use. */
+::selection { background: var(--c-link); color: var(--c-surface); }
 
 :focus-visible {
   outline: 2px solid var(--c-link);
@@ -469,12 +503,13 @@ a:hover { text-decoration-thickness: 2px; }
      the same block, rather than inheriting .t-cta's 1.05rem. Deliberately
      NOT done by changing --t-cta: that token is shared with ↓ Next, Let's
      talk →, ↑ Top and the back links, none of which change. */
-  font-size: var(--t-tag);
-  text-transform: uppercase;
+  /* 2026-11-23 NO-CAPS PASS: sentence case at body size, Medium, plum —
+     the same link style as every other .t-cta. Supersedes the note above. */
+  font-size: var(--t-body);
   text-decoration: none;
 }
 /* Hover and focus gain an underline and STAY plum — supersedes the earlier
-   hover-to-ink. The colour must not change; the underline is the whole
+   hover-to-ink. The color must not change; the underline is the whole
    affordance. :focus-visible gets it too, alongside the shared focus ring, so
    keyboard and pointer read the same. */
 .cta-case:hover,
@@ -486,7 +521,7 @@ a:hover { text-decoration-thickness: 2px; }
 /* ↓ Next — Inter Tight in ink, not the mono plum treatment, and no underline.
    The 0.08em tracking that comes with .t-cta is dropped too: it is a mono/caps
    device and reads as a mistake on sans. Size is left at --t-cta since the
-   brief named family, colour and underline only. Both of those are one-line
+   brief named family, color and underline only. Both of those are one-line
    reverts if the comparison says otherwise. */
 .cta-next {
   font-family: var(--font-ui);
@@ -517,9 +552,9 @@ a:hover { text-decoration-thickness: 2px; }
 }
 .link-pending::after {
   content: " (coming soon)";
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: var(--t-label);
-  letter-spacing: 0.08em;
+  letter-spacing: 0;
   /* text-transform inherits into ::after, and .cta-case now uppercases its
      parent — without this the suffix would shout "(COMING SOON)". */
   text-transform: none;
@@ -572,7 +607,7 @@ a:hover { text-decoration-thickness: 2px; }
 }
 
 /* The ↓ scroll trigger. Undecorated so it reads as a control rather than a
-   nav item, shifting to the accent colour on hover and focus; the shared
+   nav item, shifting to the accent color on hover and focus; the shared
    :focus-visible ring applies on top.
 
    The hit area grows INWARD: padding on the start side only, none on the end.
@@ -641,7 +676,7 @@ a:hover { text-decoration-thickness: 2px; }
   min-height: calc(100svh - var(--header-h) - var(--block-gap-abs));
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;    /* bottom, NOT centre */
+  justify-content: flex-end;    /* bottom, NOT center */
   align-items: flex-start;      /* Cargo "Text Align: left" */
 }
 
@@ -691,11 +726,69 @@ a:hover { text-decoration-thickness: 2px; }
    numbers came from and why the absolute figures in the brief were not used
    literally. --media-below lands on the element AFTER the image, so .ph's own
    bottom margin from §5 is zeroed here to keep this the single source. */
+/* 2026-11-23 NO-CAPS PASS — project descriptors. Replaces the right-aligned
+   caps mono discipline line: the disciplines continue the title at title
+   size in a lighter gray, so title and scope read as one phrase. (Plain
+   sentence case and an italic serif caption were also tried.) */
+.desc { margin: 0; }
+.project-head.head-inline { justify-content: flex-start; column-gap: 0.45em; row-gap: 0; }
+.desc-inline {
+  font-family: var(--font-ui);
+  font-size: var(--t-project);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  font-weight: 500;
+  color: color-mix(in srgb, var(--c-ink-mute) 75%, var(--c-surface));
+}
+
 .project > .project-media { margin-top: var(--media-above); }
 .project > .project-media + * { margin-top: var(--media-below); }
 .project .ph { margin-bottom: 0; }
 
 .next-cue { margin-top: var(--project-next-gap); }
+
+/* Project links — 2026-11-23 MOCK, not yet approved.
+   One row of jump links between the hero and the first project. On the
+   yellow, aligned to the block edges and set in Nav Link like the header, so
+   it reads as navigation. space-between spreads the five names across the
+   column; when the column is too narrow they wrap and a short last line sits
+   at the start. Anchors land on .block, which already has scroll-margin-top. */
+.work-nav { margin-inline: var(--block-inset); }
+.work-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem clamp(1rem, 3vw, 2rem);
+}
+.work-nav a:hover,
+.work-nav a:focus-visible { color: var(--c-link); }
+
+/* Services — 2026-11-23 MOCK, not yet approved.
+   Name and one gray sentence per row, hairlines between rows. The 01–04
+   numbers were removed at Amy's request: they read as a template. */
+.service-list { margin-top: var(--stack-md); border-bottom: 1px solid var(--c-rule); }
+
+.service-row {
+  padding-block: var(--stack-sm);
+  border-top: 1px solid var(--c-rule);
+}
+.service-name {
+  font-family: var(--font-ui);
+  font-size: var(--t-project);
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+}
+.service-text { max-width: var(--measure); }
+.service-text .t-body { margin-top: 0.4rem; color: var(--c-ink-mute); }
+.services .next-cue { margin-top: var(--stack-md); }
+
+/* 2026-11-23 copy pass: a one-line lead under the heading, a "See <project>"
+   proof line per service, and a CTA after the list. */
+.services-lead { margin-top: var(--stack-sm); max-width: var(--measure); font-size: var(--t-body-lg); }
+.service-proof { margin-top: 0.5rem; font-size: var(--t-label); font-weight: 600; color: var(--c-ink-mute); }
+.services-cta { margin-top: var(--stack-md); }
+.services-cta + .next-cue { margin-top: var(--stack-sm); }
 
 /* Info */
 /* The <hr class="rule"> inside Info stays — §6 calls for a hairline before
@@ -747,6 +840,43 @@ a:hover { text-decoration-thickness: 2px; }
 
 .meta-list { display: grid; gap: 0.15rem; }
 
+/* 2026-11-23: portrait cut-out in place of the Formats/Engagements lists.
+   On one column it is capped and left-aligned under the contact details.
+   Revised 2026-11-23 at Amy's request: centered vertically against the left
+   column, upright, with a page-yellow outline. The outline follows
+   the silhouette like a sticker rather than boxing the cut-out: four
+   zero-blur drop-shadows (flat color, no glow) stack into a solid edge. */
+.meta-portrait {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.meta-portrait img {
+  width: 84%;
+  max-width: 19rem;
+  height: auto;
+}
+/* Two columns: pull the portrait's column back across the column gap so it
+   centers in the whole space right of the text, not in the narrower grid
+   track that ends flush with the block edge. */
+@media (min-width: 48rem) {
+  .meta-portrait { margin-left: calc(-1 * var(--stack-lg)); }
+}
+
+/* Portrait outline — 2026-11-23, chosen by Amy from seven options (plum,
+   white, two-tone white/plum and plum/yellow, and this one). A 6px edge in
+   the page yellow, built from zero-blur drop-shadows (flat color, no glow)
+   so it traces the cut-out's silhouette like a sticker. */
+.pf-yellow {
+  filter:
+    drop-shadow(6px 0 0 var(--c-frame)) drop-shadow(-6px 0 0 var(--c-frame))
+    drop-shadow(0 6px 0 var(--c-frame)) drop-shadow(0 -6px 0 var(--c-frame));
+}
+@media (max-width: 47.99rem) {
+  .meta-portrait { justify-content: flex-start; padding: var(--stack-sm) 0 var(--stack-sm) 1.5rem; }
+  .meta-portrait img { max-width: 15rem; }
+}
+
 .site-footer {
   display: flex;
   flex-wrap: wrap;
@@ -776,6 +906,37 @@ a:hover { text-decoration-thickness: 2px; }
 }
 .ph[data-ratio="16-9"] { aspect-ratio: 16 / 9; }
 .ph[data-ratio="1-1"]  { aspect-ratio: 1 / 1; }
+/* Real screenshots. Same box and ratios as .ph, so swapping a placeholder for
+   an image causes no layout change. Screenshots are captured at the exact
+   ratio, so cover only trims rounding; top alignment keeps headings in view. */
+.shot {
+  aspect-ratio: 3 / 2;
+  margin: 0 0 var(--stack-md);
+  overflow: hidden;
+}
+.shot[data-ratio="16-9"] { aspect-ratio: 16 / 9; }
+/* 2026-11-23: square product photos and a wide workshop photo (Types & Tomes)
+   keep their own proportions instead of being cropped to 3:2. A .shot-pair
+   sets two squares side by side. */
+.shot[data-ratio="1-1"]  { aspect-ratio: 1 / 1; }
+.shot[data-ratio="20-9"] { aspect-ratio: 20 / 9; }
+.shot[data-ratio="4-5"]  { aspect-ratio: 4 / 5; }
+.shot[data-ratio="3-4"]  { aspect-ratio: 3 / 4; }
+/* Four 4:5 Instagram posts as a 2x2 grid (Types & Tomes "brand in use"). */
+.shot-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--stack-sm); }
+.shot-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.shot-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--stack-sm); }
+.shot img,
+.shot video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+.project .shot,
+.case-figures .shot { margin-bottom: 0; }
+
 .ph span {
   font-size: var(--t-label);
   color: color-mix(in srgb, var(--c-ink) 55%, transparent);
@@ -804,7 +965,9 @@ a:hover { text-decoration-thickness: 2px; }
 .case-figures .ph { margin-bottom: 0; }
 .case-deliverables { display: grid; gap: 0.35rem; margin-top: var(--stack-sm); }
 .case-deliverables li { padding-left: 1.2em; text-indent: -1.2em; }
-.case-deliverables li::before { content: "— "; color: var(--c-ink-mute); }
+/* The em dash is escaped so it renders on servers that send this file without
+   a charset (python -m http.server serves it as text/plain). */
+.case-deliverables li::before { content: "\2014\00a0"; color: var(--c-ink-mute); }
 .case-next { margin-top: var(--stack-lg); padding-top: var(--stack-md); border-top: 1px solid var(--c-rule); }
 
 /* ---------------------------------------------------------------------------

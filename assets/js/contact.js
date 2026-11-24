@@ -33,7 +33,7 @@
      not by secrecy. Safe to commit. Submissions from localhost/file:// are
      rejected on purpose; stub window.fetch to test the UI states. */
   var ACCESS_KEY = "4dc4b306-f30b-43bf-acf0-1f364a38059d";
-  var SUBJECT = "New enquiry from amyinsvg.github.io";
+  var SUBJECT = "New inquiry from amyinsvg.github.io";
 
   /* Surfaced in the form's failure state so a message is never lost. The Info
      block in index.html carries its own copy of this address in the markup —
